@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#09090b" />
   <title>KADENCE — Système d'Exécution &amp; Performance</title>
+  <link rel="manifest" href="manifest.json" />
   <style>
     :root {
       --bg: #09090b;
@@ -92,6 +94,12 @@
 
     .nav-links a:hover {
       color: var(--text);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .btn {
@@ -254,6 +262,13 @@
       display: block;
     }
 
+    .top-badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
     .score-pill {
       display: flex;
       flex-wrap: wrap;
@@ -277,14 +292,15 @@
       gap: 18px;
     }
 
-    .grid-2 {
+    .grid-2,
+    .pricing-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px;
     }
 
     @media (max-width: 920px) {
-      .grid-3, .grid-2 {
+      .grid-3, .grid-2, .pricing-grid {
         grid-template-columns: 1fr;
       }
       .nav-links {
@@ -349,6 +365,14 @@
     .kpi-controls {
       display: flex;
       gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .add-kpi-form {
+      display: grid;
+      grid-template-columns: 1fr 78px auto;
+      gap: 8px;
+      margin-top: 4px;
     }
 
     .routine-list {
@@ -400,6 +424,21 @@
     textarea.debrief:focus, input.field:focus {
       outline: none;
       border-color: var(--border-strong);
+    }
+
+    .plan-output {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 0.83rem;
+      color: var(--muted);
+      white-space: pre-line;
+      display: none;
+    }
+
+    .plan-output.visible {
+      display: block;
     }
 
     .protocol-card {
@@ -490,6 +529,25 @@
       min-height: 18px;
     }
 
+    .credit-lock {
+      background: rgba(251, 191, 36, 0.08);
+      border: 1px solid rgba(251, 191, 36, 0.35);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 0.84rem;
+      display: none;
+      margin-top: 10px;
+    }
+
+    .credit-lock.visible {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
     .faq-list {
       display: grid;
       gap: 12px;
@@ -541,18 +599,21 @@
         <a href="#offres">Offres</a>
         <a href="#faq">FAQ</a>
       </nav>
-      <a href="#offres" class="btn btn-primary btn-sm">Choisir une formule</a>
+      <div class="nav-right">
+        <button type="button" class="btn btn-ghost btn-sm" id="install-app-btn" style="display: none;">Installer l'appli</button>
+        <a href="#offres" class="btn btn-primary btn-sm">Choisir une formule</a>
+      </div>
     </div>
   </header>
 
   <main>
     <section class="hero">
       <div class="container">
-        <div class="eyebrow">Système d'exécution • Cockpit, Protocoles &amp; Projection</div>
+        <div class="eyebrow">Application Web (PWA) • Cockpit, Protocoles &amp; Projection</div>
         <h1>Un système complet pour exécuter sans bruit.</h1>
         <p class="hero-sub">
           KADENCE réunit ton cockpit quotidien, des protocoles structurés prêts à appliquer et un outil de projection
-          dans une interface sobre, rapide et sans distraction.
+          dans une interface sobre, rapide et installable sur ton appareil.
         </p>
         <div class="hero-actions">
           <a href="#offres" class="btn btn-primary">Accéder aux offres</a>
@@ -568,12 +629,19 @@
             <h2>Aperçu de la suite KADENCE</h2>
             <p class="section-desc">
               Teste les trois modules : le cockpit de suivi quotidien, la bibliothèque de protocoles et la projection d'objectifs.
+              Chaque ajout d'objectif ou génération de plan consomme 1 crédit gratuit (5 crédits offerts).
             </p>
           </div>
-          <div class="score-pill">
-            <span>Score du jour :</span>
-            <span class="score-val" id="daily-score">0%</span>
-            <button type="button" class="btn btn-ghost btn-sm" id="reset-demo">Réinitialiser</button>
+          <div class="top-badges">
+            <div class="score-pill">
+              <span>Crédits gratuits :</span>
+              <span class="score-val" id="credits-count">5 / 5</span>
+            </div>
+            <div class="score-pill">
+              <span>Score du jour :</span>
+              <span class="score-val" id="daily-score">0%</span>
+              <button type="button" class="btn btn-ghost btn-sm" id="reset-demo">Réinitialiser</button>
+            </div>
           </div>
         </div>
 
@@ -597,6 +665,11 @@
               <div class="panel">
                 <div class="panel-title">Objectifs &amp; Compteurs</div>
                 <div id="kpi-container" style="display: flex; flex-direction: column; gap: 10px;"></div>
+                <form class="add-kpi-form" id="add-kpi-form">
+                  <input type="text" class="field" id="new-kpi-label" placeholder="Nouvel objectif..." maxlength="48" />
+                  <input type="number" class="field" id="new-kpi-target" value="3" min="1" max="50" />
+                  <button type="submit" class="btn btn-ghost btn-sm">+1 cr.</button>
+                </form>
               </div>
 
               <div class="panel">
@@ -605,7 +678,7 @@
               </div>
 
               <div class="panel">
-                <div class="panel-title">Débrief de Fin de Journée</div>
+                <div class="panel-title">Débrief &amp; Plan d'Action</div>
                 <textarea
                   class="debrief"
                   id="debrief-input"
@@ -613,9 +686,16 @@
                 ></textarea>
                 <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                   <button type="button" class="btn btn-ghost btn-sm" id="copy-brief">Copier le bilan</button>
+                  <button type="button" class="btn btn-primary btn-sm" id="generate-plan">Générer un plan (-1 cr.)</button>
                 </div>
+                <div class="plan-output" id="plan-output"></div>
                 <div class="status-line" id="save-status"></div>
               </div>
+            </div>
+
+            <div class="credit-lock" id="credit-lock">
+              <span><strong>Limite des 5 crédits gratuits atteinte.</strong> Passe sur une formule pour continuer à ajouter des objectifs et générer des plans sans limite.</span>
+              <a href="#offres" class="btn btn-primary btn-sm">Voir les offres</a>
             </div>
           </div>
 
@@ -732,7 +812,7 @@
             </div>
             <a
               id="link-essentiel"
-              href=https://buy.stripe.com/28E28s1A1bBaf4r0FQbjW06
+              href="https://buy.stripe.com/REMPLACE_PAR_TON_LIEN_ESSENTIEL"
               target="_blank"
               rel="noopener noreferrer"
               class="btn btn-ghost"
@@ -756,7 +836,7 @@
             </div>
             <a
               id="link-pro"
-              href=https://buy.stripe.com/aFa5kE6Ul48I6xV2NYbjW04
+              href="https://buy.stripe.com/REMPLACE_PAR_TON_LIEN_SYSTEME_COMPLET"
               target="_blank"
               rel="noopener noreferrer"
               class="btn btn-primary"
@@ -785,7 +865,7 @@
           <details>
             <summary>Où sont enregistrées mes données d'utilisation ?</summary>
             <p>
-              Tes compteurs, cases cochées et notes de débrief sont enregistrés localement dans ton navigateur.
+              Tes compteurs, cases cochées, objectifs personnalisés et notes de débrief sont enregistrés localement dans ton navigateur.
             </p>
           </details>
           <details>
@@ -807,7 +887,9 @@
   </footer>
 
   <script>
-    const STATE_KEY = "kadence_suite_state_v3";
+    const STATE_KEY = "kadence_suite_state_v4";
+    const CREDITS_KEY = "kadence_free_credits_v1";
+    const INITIAL_CREDITS = 5;
 
     const defaultState = {
       kpis: [
@@ -821,8 +903,53 @@
         { id: "r3", label: "Faire le point sur l'avancement à mi-journée", done: false },
         { id: "r4", label: "Rédiger le débrief du soir avant de couper", done: false }
       ],
-      debrief: ""
+      debrief: "",
+      generatedPlan: ""
     };
+
+    function getCredits() {
+      try {
+        const raw = localStorage.getItem(CREDITS_KEY);
+        if (raw === null) {
+          localStorage.setItem(CREDITS_KEY, String(INITIAL_CREDITS));
+          return INITIAL_CREDITS;
+        }
+        return Math.max(0, Number(raw) || 0);
+      } catch {
+        return INITIAL_CREDITS;
+      }
+    }
+
+    function setCredits(val) {
+      try {
+        localStorage.setItem(CREDITS_KEY, String(Math.max(0, val)));
+      } catch {}
+    }
+
+    function useCredit() {
+      const current = getCredits();
+      if (current <= 0) {
+        document.getElementById("credit-lock").classList.add("visible");
+        renderCreditsUI();
+        return false;
+      }
+      setCredits(current - 1);
+      renderCreditsUI();
+      if (current - 1 <= 0) {
+        document.getElementById("credit-lock").classList.add("visible");
+      }
+      return true;
+    }
+
+    function renderCreditsUI() {
+      const credits = getCredits();
+      document.getElementById("credits-count").textContent = `${credits} / ${INITIAL_CREDITS}`;
+      if (credits <= 0) {
+        document.getElementById("credit-lock").classList.add("visible");
+      } else {
+        document.getElementById("credit-lock").classList.remove("visible");
+      }
+    }
 
     function loadState() {
       try {
@@ -832,7 +959,8 @@
         return {
           kpis: Array.isArray(p.kpis) ? p.kpis : structuredClone(defaultState.kpis),
           routines: Array.isArray(p.routines) ? p.routines : structuredClone(defaultState.routines),
-          debrief: typeof p.debrief === "string" ? p.debrief : ""
+          debrief: typeof p.debrief === "string" ? p.debrief : "",
+          generatedPlan: typeof p.generatedPlan === "string" ? p.generatedPlan : ""
         };
       } catch {
         return structuredClone(defaultState);
@@ -909,6 +1037,15 @@
 
       const debriefEl = document.getElementById("debrief-input");
       if (debriefEl.value !== state.debrief) debriefEl.value = state.debrief;
+
+      const planEl = document.getElementById("plan-output");
+      if (state.generatedPlan) {
+        planEl.textContent = state.generatedPlan;
+        planEl.classList.add("visible");
+      } else {
+        planEl.textContent = "";
+        planEl.classList.remove("visible");
+      }
     }
 
     function updateSimulator() {
@@ -930,6 +1067,26 @@
         btn.classList.add("active");
         document.getElementById(`tab-${btn.dataset.tab}`).classList.add("active");
       });
+    });
+
+    document.getElementById("add-kpi-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const inputLabel = document.getElementById("new-kpi-label");
+      const inputTarget = document.getElementById("new-kpi-target");
+      const label = inputLabel.value.trim();
+      const target = Math.max(1, Math.min(50, Number(inputTarget.value) || 3));
+      if (!label) return;
+      if (!useCredit()) return;
+
+      state.kpis.push({
+        id: "kpi_" + Date.now(),
+        label,
+        current: 0,
+        target
+      });
+      inputLabel.value = "";
+      persistState(true);
+      renderCockpit();
     });
 
     document.getElementById("kpi-container").addEventListener("click", (e) => {
@@ -958,6 +1115,20 @@
     document.getElementById("debrief-input").addEventListener("input", (e) => {
       state.debrief = e.target.value;
       persistState(true);
+    });
+
+    document.getElementById("generate-plan").addEventListener("click", () => {
+      if (!useCredit()) return;
+      const pending = state.kpis
+        .filter((k) => k.current < k.target)
+        .map((k) => `- ${k.label} : ${k.target - k.current} unité(s) restante(s)`);
+      const note = state.debrief.trim() || "Aucune note particulière saisie.";
+      state.generatedPlan =
+        "PLAN D'EXÉCUTION GÉNÉRÉ\n" +
+        (pending.length ? pending.join("\n") : "- Tous les objectifs actuels sont atteints.") +
+        `\nNote de référence : ${note}`;
+      persistState(true);
+      renderCockpit();
     });
 
     document.getElementById("copy-brief").addEventListener("click", async () => {
@@ -994,6 +1165,30 @@
       document.getElementById(id).addEventListener("input", updateSimulator);
     });
 
+    let deferredPrompt = null;
+    const installBtn = document.getElementById("install-app-btn");
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (installBtn) installBtn.style.display = "inline-flex";
+    });
+    if (installBtn) {
+      installBtn.addEventListener("click", async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        installBtn.style.display = "none";
+      });
+    }
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js").catch(() => {});
+      });
+    }
+
+    renderCreditsUI();
     renderCockpit();
     updateSimulator();
   </script>
