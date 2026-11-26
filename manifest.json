@@ -1,20 +1,25 @@
+JSON
 {
   "name": "KADENCE",
   "short_name": "KADENCE",
-  "start_url": "./",
+  "description": "Système d'exécution, cockpit quotidien, protocoles et projection pour structurer et suivre tes objectifs.",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#09090b",
   "theme_color": "#09090b",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "./icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "icon-512.png",
+      "src": "./icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
