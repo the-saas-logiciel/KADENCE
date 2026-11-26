@@ -3,947 +3,999 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KADENCE — Suivi d'Exécution & Discipline</title>
-  <!-- Police Inter pour une lisibilité nette et minimaliste -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <!-- Tailwind CSS via CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-          },
-          colors: {
-            canvas: '#09090b',
-            surface: '#111114',
-            line: '#27272a',
-            primary: '#fafafa',
-            muted: '#a1a1aa',
-          },
-        },
-      },
-    };
-  </script>
+  <title>KADENCE — Système d'Exécution &amp; Performance</title>
   <style>
-    /* Style sobre et personnalisé pour le mode sombre monochrome */
-    html, body {
-      background-color: #09090b;
-      color: #fafafa;
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    :root {
+      --bg: #09090b;
+      --surface: #111114;
+      --surface-2: #18181c;
+      --border: rgba(255, 255, 255, 0.09);
+      --border-strong: rgba(255, 255, 255, 0.2);
+      --text: #f4f4f6;
+      --muted: #9a9aa4;
+      --accent: #ffffff;
+      --accent-ink: #09090b;
+      --ok: #34d399;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+      line-height: 1.55;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Barre de défilement discrète */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #09090b;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #27272a;
-      border-radius: 9999px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #3f3f46;
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
-    /* Empêche le zoom automatique sur iOS lors du focus d'un champ */
-    input, textarea, button {
-      font-size: 16px;
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
-    @media (min-width: 640px) {
-      input, textarea, button {
-        font-size: 0.875rem;
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(14px);
+      background: rgba(9, 9, 11, 0.85);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      font-size: 0.92rem;
+    }
+
+    .brand-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: transform 0.12s ease, opacity 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn:active {
+      transform: scale(0.985);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--accent-ink);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.92;
+    }
+
+    .btn-ghost {
+      background: var(--surface);
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--border-strong);
+      background: var(--surface-2);
+    }
+
+    .btn-sm {
+      padding: 7px 12px;
+      font-size: 0.8rem;
+      border-radius: 8px;
+    }
+
+    .hero {
+      padding: 72px 0 54px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 5vw, 3.45rem);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      font-weight: 700;
+      max-width: 19ch;
+      margin-bottom: 18px;
+    }
+
+    .hero-sub {
+      color: var(--muted);
+      font-size: 1.04rem;
+      max-width: 60ch;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    section {
+      padding: 60px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    h2 {
+      font-size: clamp(1.45rem, 3vw, 2.05rem);
+      letter-spacing: -0.02em;
+      font-weight: 650;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      max-width: 58ch;
+      font-size: 0.94rem;
+    }
+
+    .suite-shell {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+
+    .suite-topbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding-bottom: 18px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .tab-btn {
+      padding: 9px 14px;
+      border-radius: 9px;
+      background: var(--bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      background: var(--accent);
+      color: var(--accent-ink);
+      border-color: var(--accent);
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .score-pill {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 0.84rem;
+    }
+
+    .score-val {
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    @media (max-width: 920px) {
+      .grid-3, .grid-2 {
+        grid-template-columns: 1fr;
       }
+      .nav-links {
+        display: none;
+      }
+    }
+
+    .panel {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .panel-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .kpi-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .kpi-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      font-size: 0.88rem;
+    }
+
+    .kpi-nums {
+      font-variant-numeric: tabular-nums;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .bar {
+      height: 6px;
+      background: var(--surface-2);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.2s ease;
+    }
+
+    .kpi-controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .routine-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .routine-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.86rem;
+      cursor: pointer;
+    }
+
+    .routine-row input {
+      accent-color: var(--accent);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .routine-row.done span {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+
+    textarea.debrief, input.field {
+      width: 100%;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-family: inherit;
+      font-size: 0.86rem;
+    }
+
+    textarea.debrief {
+      min-height: 135px;
+      resize: vertical;
+    }
+
+    textarea.debrief:focus, input.field:focus {
+      outline: none;
+      border-color: var(--border-strong);
+    }
+
+    .protocol-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .protocol-title {
+      font-weight: 600;
+      font-size: 0.94rem;
+    }
+
+    .protocol-text {
+      color: var(--muted);
+      font-size: 0.85rem;
+      white-space: pre-line;
+    }
+
+    .sim-stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sim-num {
+      font-size: 1.25rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .card.featured {
+      border-color: var(--border-strong);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.01));
+    }
+
+    .price {
+      font-size: 2.05rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 10px 0 6px;
+    }
+
+    .price span {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      font-size: 0.89rem;
+      color: var(--muted);
+      margin-top: 14px;
+    }
+
+    .features li::before {
+      content: "— ";
+      color: var(--text);
+    }
+
+    .status-line {
+      font-size: 0.8rem;
+      color: var(--ok);
+      min-height: 18px;
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 12px;
+      max-width: 820px;
+    }
+
+    details {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+
+    summary {
+      font-weight: 600;
+      font-size: 0.94rem;
+      cursor: pointer;
+    }
+
+    details p {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.89rem;
+    }
+
+    footer {
+      padding: 34px 0 48px;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .footer-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
     }
   </style>
 </head>
-<body class="bg-canvas text-primary min-h-screen selection:bg-white selection:text-black">
-  <!-- Conteneur principal centré et fluide -->
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
-
-    <!-- Bannière de notification discrète (remplace alert/confirm) -->
-    <div id="toast-banner" class="hidden fixed bottom-5 right-5 z-50 bg-surface border border-line text-primary px-4 py-3 rounded-xl shadow-2xl text-sm flex items-center gap-3 max-w-sm">
-      <span id="toast-text" class="text-primary"></span>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="#" class="brand">
+        <span class="brand-dot"></span>
+        <span>KADENCE</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#systeme">Le Système</a>
+        <a href="#offres">Offres</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a href="#offres" class="btn btn-primary btn-sm">Choisir une formule</a>
     </div>
+  </header>
 
-    <!-- 1) EN-TÊTE PRINCIPAL (Titre KADENCE, date/session, score d'exécution en direct, bouton réinitialiser) -->
-    <header class="bg-surface border border-line rounded-2xl p-5 sm:p-6 mb-6">
-      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
-        <!-- Identité & Date/Session -->
-        <div>
-          <div class="flex items-center gap-3">
-            <span class="inline-block w-2.5 h-2.5 rounded-full bg-white" aria-hidden="true"></span>
-            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">KADENCE</h1>
-            <span class="text-xs uppercase tracking-widest text-muted border border-line rounded-full px-2.5 py-0.5">
-              Exécution
-            </span>
-          </div>
-          <p id="session-date-label" class="text-sm text-muted mt-2"></p>
-        </div>
-
-        <!-- Score d'exécution en direct + Bouton Réinitialiser la journée -->
-        <div class="flex flex-col sm:flex-row sm:items-center gap-4 lg:gap-6">
-          <div class="w-full sm:w-64">
-            <div class="flex items-baseline justify-between mb-1.5">
-              <span class="text-xs uppercase tracking-wider text-muted font-medium">Score d'exécution</span>
-              <span id="execution-score-value" class="text-lg font-semibold text-white tabular-nums">0%</span>
-            </div>
-            <div class="w-full h-2 bg-canvas border border-line rounded-full overflow-hidden">
-              <div
-                id="execution-score-bar"
-                class="h-full bg-white transition-all duration-300 rounded-full"
-                style="width: 0%"
-              ></div>
-            </div>
-            <p id="execution-score-detail" class="text-[11px] text-muted mt-1.5 tabular-nums"></p>
-          </div>
-
-          <!-- Bouton de réinitialisation de la journée (avec confirmation intégrée sans fenêtre bloquante) -->
-          <div id="reset-controls" class="flex items-center gap-2 shrink-0">
-            <button
-              id="reset-day-btn"
-              type="button"
-              class="px-4 py-2.5 rounded-xl border border-line bg-canvas hover:bg-zinc-900 active:scale-[0.99] text-xs font-medium text-muted hover:text-white transition"
-            >
-              Réinitialiser la journée
-            </button>
-            <div id="confirm-reset-group" class="hidden items-center gap-2">
-              <button
-                id="confirm-reset-btn"
-                type="button"
-                class="px-3.5 py-2.5 rounded-xl bg-white text-black hover:bg-zinc-200 text-xs font-semibold transition"
-              >
-                Confirmer
-              </button>
-              <button
-                id="cancel-reset-btn"
-                type="button"
-                class="px-3 py-2.5 rounded-xl border border-line bg-canvas text-muted hover:text-white text-xs font-medium transition"
-              >
-                Annuler
-              </button>
-            </div>
-          </div>
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="eyebrow">Système d'exécution • Cockpit, Protocoles &amp; Projection</div>
+        <h1>Un système complet pour exécuter sans bruit.</h1>
+        <p class="hero-sub">
+          KADENCE réunit ton cockpit quotidien, des protocoles structurés prêts à appliquer et un outil de projection
+          dans une interface sobre, rapide et sans distraction.
+        </p>
+        <div class="hero-actions">
+          <a href="#offres" class="btn btn-primary">Accéder aux offres</a>
+          <a href="#systeme" class="btn btn-ghost">Explorer le système</a>
         </div>
       </div>
-    </header>
+    </section>
 
-    <!-- GRILLE PRINCIPALE : 2 colonnes sur grand écran, empilée sur mobile -->
-    <main class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <section id="systeme">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Aperçu de la suite KADENCE</h2>
+            <p class="section-desc">
+              Teste les trois modules : le cockpit de suivi quotidien, la bibliothèque de protocoles et la projection d'objectifs.
+            </p>
+          </div>
+          <div class="score-pill">
+            <span>Score du jour :</span>
+            <span class="score-val" id="daily-score">0%</span>
+            <button type="button" class="btn btn-ghost btn-sm" id="reset-demo">Réinitialiser</button>
+          </div>
+        </div>
 
-      <!-- COLONNE GAUCHE (7/12) : Objectifs Prioritaires + Journal d'Action / Exécution -->
-      <div class="lg:col-span-7 space-y-6">
-
-        <!-- 2) OBJECTIFS PRIORITAIRES / COMPTEURS CIBLES -->
-        <section aria-labelledby="goals-heading" class="bg-surface border border-line rounded-2xl p-5 sm:p-6">
-          <div class="flex items-center justify-between gap-3 mb-4">
-            <div>
-              <h2 id="goals-heading" class="text-base sm:text-lg font-semibold text-white">
-                Objectifs prioritaires & compteurs
-              </h2>
-              <p class="text-xs text-muted mt-0.5">
-                Avance tes compteurs cibles pas à pas (+1 / -1).
-              </p>
-            </div>
-            <span id="goals-summary-badge" class="text-xs font-medium text-muted bg-canvas border border-line px-2.5 py-1 rounded-full tabular-nums">
-              0 objectif
-            </span>
+        <div class="suite-shell">
+          <div class="tabs" role="tablist">
+            <button type="button" class="tab-btn active" data-tab="cockpit">1. Cockpit Quotidien</button>
+            <button type="button" class="tab-btn" data-tab="protocoles">2. Protocoles &amp; Cadres</button>
+            <button type="button" class="tab-btn" data-tab="simulateur">3. Projection</button>
           </div>
 
-          <!-- Formulaire d'ajout d'objectif prioritaire -->
-          <form id="add-goal-form" class="flex flex-col sm:flex-row gap-2.5 mb-5">
-            <input
-              id="goal-title-input"
-              type="text"
-              maxlength="80"
-              placeholder="Nouvel objectif (ex. Sessions de focus de 45 min)"
-              class="flex-1 bg-canvas border border-line focus:border-white rounded-xl px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 outline-none transition"
-              required
-            />
-            <div class="flex gap-2.5">
-              <input
-                id="goal-target-input"
-                type="number"
-                min="1"
-                max="10000"
-                value="5"
-                aria-label="Objectif cible"
-                class="w-24 sm:w-24 bg-canvas border border-line focus:border-white rounded-xl px-3 py-2.5 text-sm text-white text-center tabular-nums outline-none transition"
-                required
-              />
-              <button
-                type="submit"
-                class="px-4 py-2.5 rounded-xl bg-white text-black hover:bg-zinc-200 active:scale-[0.99] text-xs font-semibold whitespace-nowrap transition"
-              >
-                + Ajouter
-              </button>
+          <div class="tab-panel active" id="tab-cockpit">
+            <div class="suite-topbar">
+              <div>
+                <strong>Pilotage journalier</strong>
+                <div style="font-size: 0.82rem; color: var(--muted);">Sauvegarde automatique dans le navigateur</div>
+              </div>
+              <div style="font-size: 0.82rem; color: var(--muted);" id="kpi-summary">0 / 0 unités</div>
             </div>
-          </form>
 
-          <!-- Liste des objectifs prioritaires -->
-          <div id="goals-list" class="space-y-3"></div>
-        </section>
+            <div class="grid-3">
+              <div class="panel">
+                <div class="panel-title">Objectifs &amp; Compteurs</div>
+                <div id="kpi-container" style="display: flex; flex-direction: column; gap: 10px;"></div>
+              </div>
 
-        <!-- 4) JOURNAL D'ACTION / EXÉCUTION -->
-        <section aria-labelledby="actions-heading" class="bg-surface border border-line rounded-2xl p-5 sm:p-6">
-          <div class="flex items-center justify-between gap-3 mb-4">
-            <div>
-              <h2 id="actions-heading" class="text-base sm:text-lg font-semibold text-white">
-                Journal d'action & exécution
-              </h2>
-              <p class="text-xs text-muted mt-0.5">
-                Tâches concrètes et blocs de focus de la session.
-              </p>
+              <div class="panel">
+                <div class="panel-title">Routines Non-Négociables</div>
+                <div class="routine-list" id="routine-container"></div>
+              </div>
+
+              <div class="panel">
+                <div class="panel-title">Débrief de Fin de Journée</div>
+                <textarea
+                  class="debrief"
+                  id="debrief-input"
+                  placeholder="Ce qui a été exécuté, points de friction, priorité #1 demain..."
+                ></textarea>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                  <button type="button" class="btn btn-ghost btn-sm" id="copy-brief">Copier le bilan</button>
+                </div>
+                <div class="status-line" id="save-status"></div>
+              </div>
             </div>
-            <span id="actions-count-badge" class="text-xs font-medium text-muted bg-canvas border border-line px-2.5 py-1 rounded-full tabular-nums">
-              0/0 fait
-            </span>
           </div>
 
-          <!-- Ajout rapide d'une tâche ou d'un bloc d'exécution -->
-          <form id="add-action-form" class="flex flex-col sm:flex-row gap-2.5 mb-5">
-            <input
-              id="action-title-input"
-              type="text"
-              maxlength="120"
-              placeholder="Ajouter une action ou un bloc de focus..."
-              class="flex-1 bg-canvas border border-line focus:border-white rounded-xl px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 outline-none transition"
-              required
-            />
-            <button
-              type="submit"
-              class="px-4 py-2.5 rounded-xl bg-white text-black hover:bg-zinc-200 active:scale-[0.99] text-xs font-semibold whitespace-nowrap transition"
-            >
-              Ajouter l'action
-            </button>
-          </form>
+          <div class="tab-panel" id="tab-protocoles">
+            <div class="grid-2">
+              <div class="protocol-card">
+                <div class="panel-title">Protocole 01</div>
+                <div class="protocol-title">Démarrage de Journée &amp; Priorisation</div>
+                <div class="protocol-text" id="proto-1">1. Choisir 1 priorité majeure à verrouiller en premier bloc.
+2. Limiter les objectifs chiffrés à 3 indicateurs suivis chaque jour.
+3. Éliminer les sollicitations non urgentes pendant le bloc principal.</div>
+                <div>
+                  <button type="button" class="btn btn-ghost btn-sm copy-proto" data-target="proto-1">Copier le protocole</button>
+                </div>
+              </div>
 
-          <!-- Liste des actions -->
-          <div id="actions-list" class="space-y-2.5"></div>
-        </section>
+              <div class="protocol-card">
+                <div class="panel-title">Protocole 02</div>
+                <div class="protocol-title">Bloc d'Exécution Focalisée</div>
+                <div class="protocol-text" id="proto-2">1. Fixer une durée précise et un livrable concret avant de lancer le chrono.
+2. Avancer sur la tâche sans changer de sujet en cours de bloc.
+3. Incrémenter le compteur dès qu'une unité est réellement terminée.</div>
+                <div>
+                  <button type="button" class="btn btn-ghost btn-sm copy-proto" data-target="proto-2">Copier le protocole</button>
+                </div>
+              </div>
+
+              <div class="protocol-card">
+                <div class="panel-title">Protocole 03</div>
+                <div class="protocol-title">Revue de Mi-Journée</div>
+                <div class="protocol-text" id="proto-3">1. Comparer l'avancement réel au rythme prévu pour la journée.
+2. Ajuster l'ordre des tâches restantes si un bloc a pris du retard.
+3. Garder le cap sur l'essentiel plutôt que d'ajouter de nouvelles tâches.</div>
+                <div>
+                  <button type="button" class="btn btn-ghost btn-sm copy-proto" data-target="proto-3">Copier le protocole</button>
+                </div>
+              </div>
+
+              <div class="protocol-card">
+                <div class="panel-title">Protocole 04</div>
+                <div class="protocol-title">Débrief &amp; Préparation du Lendemain</div>
+                <div class="protocol-text" id="proto-4">1. Noter ce qui a fonctionné et ce qui a ralenti l'exécution.
+2. Valider les routines accomplies pour lire son score réel.
+3. Écrire la première action du lendemain avant de fermer l'espace de travail.</div>
+                <div>
+                  <button type="button" class="btn btn-ghost btn-sm copy-proto" data-target="proto-4">Copier le protocole</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="tab-simulateur">
+            <div class="grid-2">
+              <div class="panel">
+                <div class="panel-title">Paramètres de Projection</div>
+                <label style="font-size: 0.85rem; color: var(--muted);">
+                  Volume mensuel (visiteurs / sessions)
+                  <input type="number" class="field" id="sim-visitors" value="1000" min="0" step="100" />
+                </label>
+                <label style="font-size: 0.85rem; color: var(--muted);">
+                  Taux de réalisation / conversion (%)
+                  <input type="number" class="field" id="sim-conv" value="2" min="0" max="100" step="0.5" />
+                </label>
+                <label style="font-size: 0.85rem; color: var(--muted);">
+                  Valeur unitaire de référence (€)
+                  <input type="number" class="field" id="sim-price" value="79" min="1" step="1" />
+                </label>
+              </div>
+
+              <div class="panel">
+                <div class="panel-title">Résultat Projeté</div>
+                <div class="sim-stat">
+                  <span>Volume validé estimé / mois</span>
+                  <span class="sim-num" id="sim-orders">20</span>
+                </div>
+                <div class="sim-stat">
+                  <span>Total projeté estimé</span>
+                  <span class="sim-num" id="sim-revenue">1 580 €</span>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--muted);">
+                  Calcul indicatif basé sur les valeurs saisies (hors frais, taxes ou charges éventuelles).
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <!-- COLONNE DROITE (5/12) : Routines Non-Négociables + Débrief de Fin de Journée -->
-      <div class="lg:col-span-5 space-y-6">
-
-        <!-- 3) ROUTINES QUOTIDIENNES NON-NÉGOCIABLES -->
-        <section aria-labelledby="routines-heading" class="bg-surface border border-line rounded-2xl p-5 sm:p-6">
-          <div class="flex items-center justify-between gap-3 mb-4">
-            <div>
-              <h2 id="routines-heading" class="text-base sm:text-lg font-semibold text-white">
-                Routines non-négociables
-              </h2>
-              <p class="text-xs text-muted mt-0.5">
-                Validation instantanée des standards du jour.
-              </p>
-            </div>
-            <span id="routines-counter-badge" class="text-xs font-semibold text-white bg-canvas border border-line px-3 py-1 rounded-full tabular-nums">
-              0 / 0
-            </span>
+    <section id="offres">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Formules &amp; Accès</h2>
+            <p class="section-desc">
+              Choisis la formule adaptée à ton rythme. Le paiement s'effectue de manière sécurisée via Stripe.
+            </p>
           </div>
+        </div>
 
-          <!-- Ajout rapide d'une routine -->
-          <form id="add-routine-form" class="flex gap-2 mb-4">
-            <input
-              id="routine-title-input"
-              type="text"
-              maxlength="90"
-              placeholder="Nouvelle routine (ex. Zéro écran 30 min avant sommeil)"
-              class="flex-1 bg-canvas border border-line focus:border-white rounded-xl px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 outline-none transition"
-              required
-            />
-            <button
-              type="submit"
-              class="px-3.5 py-2.5 rounded-xl border border-line bg-canvas hover:bg-zinc-900 text-white text-xs font-semibold whitespace-nowrap transition"
+        <div class="pricing-grid">
+          <div class="card">
+            <div>
+              <div class="panel-title">Essentiel</div>
+              <div class="price">29 € <span>/ mois</span></div>
+              <p style="color: var(--muted); font-size: 0.9rem;">
+                L'accès mensuel au système KADENCE pour garder un cadre régulier jour après jour.
+              </p>
+              <ul class="features">
+                <li>Cockpit quotidien avec score automatique</li>
+                <li>Protocoles de planification &amp; exécution</li>
+                <li>Accès immédiat après paiement</li>
+              </ul>
+            </div>
+            <a
+              id="link-essentiel"
+              href=https://buy.stripe.com/28E28s1A1bBaf4r0FQbjW06
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-ghost"
             >
-              + Routine
-            </button>
-          </form>
-
-          <!-- Liste des routines -->
-          <div id="routines-list" class="space-y-2"></div>
-        </section>
-
-        <!-- 5) DÉBRIEF DE FIN DE JOURNÉE -->
-        <section aria-labelledby="debrief-heading" class="bg-surface border border-line rounded-2xl p-5 sm:p-6">
-          <div class="flex items-center justify-between gap-3 mb-3">
-            <div>
-              <h2 id="debrief-heading" class="text-base sm:text-lg font-semibold text-white">
-                Débrief de fin de journée
-              </h2>
-              <p class="text-xs text-muted mt-0.5">
-                Ce qui a fonctionné, friction principale, priorité de demain.
-              </p>
-            </div>
-            <!-- Indicateur clair de sauvegarde automatique -->
-            <span id="save-status-indicator" class="inline-flex items-center gap-1.5 text-xs font-medium text-white bg-canvas border border-line px-2.5 py-1 rounded-full">
-              <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
-              Sauvegardé
-            </span>
+              Commander Essentiel — 29 € / mois
+            </a>
           </div>
 
-          <textarea
-            id="debrief-textarea"
-            rows="6"
-            placeholder="Note ici tes observations : victoires concrètes, distractions évitées, ajustement pour demain..."
-            class="w-full bg-canvas border border-line focus:border-white rounded-xl p-3.5 text-sm text-white placeholder:text-zinc-500 outline-none resize-y min-h-[140px] transition leading-relaxed"
-          ></textarea>
-        </section>
+          <div class="card featured">
+            <div>
+              <div class="panel-title">Système Complet</div>
+              <div class="price">79 € <span>/ paiement unique</span></div>
+              <p style="color: var(--muted); font-size: 0.9rem;">
+                L'accès complet à la suite KADENCE, à l'ensemble des protocoles et aux outils de projection en un seul règlement.
+              </p>
+              <ul class="features">
+                <li>Tout le contenu de la formule Essentiel</li>
+                <li>Bibliothèque complète de protocoles structurés</li>
+                <li>Outil de projection &amp; suivi détaillé</li>
+              </ul>
+            </div>
+            <a
+              id="link-pro"
+              href=https://buy.stripe.com/aFa5kE6Ul48I6xV2NYbjW04
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary"
+            >
+              Payer Système Complet — 79 €
+            </a>
+          </div>
+        </div>
       </div>
+    </section>
 
-    </main>
-  </div>
+    <section id="faq">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Questions fréquentes</h2>
+          </div>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>Comment accéder au système après le paiement ?</summary>
+            <p>
+              Une fois le paiement validé sur Stripe, tu es redirigé vers la page ou les instructions prévues pour démarrer immédiatement.
+            </p>
+          </details>
+          <details>
+            <summary>Où sont enregistrées mes données d'utilisation ?</summary>
+            <p>
+              Tes compteurs, cases cochées et notes de débrief sont enregistrés localement dans ton navigateur.
+            </p>
+          </details>
+          <details>
+            <summary>Quelle est la différence entre Essentiel et Système Complet ?</summary>
+            <p>
+              Essentiel est proposé à 29 € par mois, tandis que Système Complet est à 79 € en paiement unique avec l'ensemble des protocoles et modules.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <div><strong>KADENCE</strong> — Système d'exécution &amp; performance</div>
+      <div>Paiement sécurisé via Stripe • Tous droits réservés</div>
+    </div>
+  </footer>
 
   <script>
-    /**
-     * KADENCE — Application locale de suivi d'exécution, objectifs, routines et débrief.
-     * Toutes les données sont persistées automatiquement dans localStorage sous la clé STORAGE_KEY.
-     */
-    (function () {
-      'use strict';
+    const STATE_KEY = "kadence_suite_state_v3";
 
-      const STORAGE_KEY = 'kadence_state_v1';
+    const defaultState = {
+      kpis: [
+        { id: "deepwork", label: "Blocs d'exécution focalisée", current: 2, target: 4 },
+        { id: "content", label: "Unités / livrables validés", current: 1, target: 3 },
+        { id: "training", label: "Sessions sport / récupération", current: 1, target: 2 }
+      ],
+      routines: [
+        { id: "r1", label: "Définir la priorité principale dès le début de journée", done: true },
+        { id: "r2", label: "Réaliser le premier bloc de travail sans distraction", done: false },
+        { id: "r3", label: "Faire le point sur l'avancement à mi-journée", done: false },
+        { id: "r4", label: "Rédiger le débrief du soir avant de couper", done: false }
+      ],
+      debrief: ""
+    };
 
-      // Données par défaut en français pour tester immédiatement à la première ouverture
-      function createDefaultState() {
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STATE_KEY);
+        if (!raw) return structuredClone(defaultState);
+        const p = JSON.parse(raw);
         return {
-          goals: [
-            {
-              id: 'goal-1',
-              title: 'Blocs de travail profond (60 min)',
-              current: 2,
-              target: 4,
-            },
-            {
-              id: 'goal-2',
-              title: 'Messages ou retours utilisateurs envoyés',
-              current: 3,
-              target: 10,
-            },
-            {
-              id: 'goal-3',
-              title: 'Minutes d’entraînement physique',
-              current: 45,
-              target: 60,
-            },
-          ],
-          routines: [
-            {
-              id: 'routine-1',
-              title: 'Démarrer sur la priorité #1 avant les notifications',
-              done: true,
-            },
-            {
-              id: 'routine-2',
-              title: 'Hydratation & pause visuelle toutes les heures',
-              done: true,
-            },
-            {
-              id: 'routine-3',
-              title: 'Pas de réseaux sociaux pendant les blocs de focus',
-              done: false,
-            },
-            {
-              id: 'routine-4',
-              title: 'Débrief écrit avant de couper l’écran',
-              done: false,
-            },
-          ],
-          actions: [
-            {
-              id: 'action-1',
-              title: 'Finaliser la version v1 de l’outil et vérifier l’affichage mobile',
-              done: true,
-            },
-            {
-              id: 'action-2',
-              title: 'Enregistrer une démo écran courte de 15 secondes',
-              done: false,
-            },
-            {
-              id: 'action-3',
-              title: 'Préparer la liste des priorités pour demain matin',
-              done: false,
-            },
-          ],
-          debrief:
-            'Exécution régulière sur les premiers blocs. Garder le rythme simple et éviter de disperser l’attention avant la fin de la session.',
-          lastSavedAt: new Date().toISOString(),
+          kpis: Array.isArray(p.kpis) ? p.kpis : structuredClone(defaultState.kpis),
+          routines: Array.isArray(p.routines) ? p.routines : structuredClone(defaultState.routines),
+          debrief: typeof p.debrief === "string" ? p.debrief : ""
         };
+      } catch {
+        return structuredClone(defaultState);
       }
+    }
 
-      // État courant en mémoire
-      let state = loadState();
-      let toastTimeout = null;
-      let saveBadgeTimeout = null;
+    let state = loadState();
+    let saveTimer = null;
 
-      // Références DOM
-      const els = {
-        dateLabel: document.getElementById('session-date-label'),
-        scoreValue: document.getElementById('execution-score-value'),
-        scoreBar: document.getElementById('execution-score-bar'),
-        scoreDetail: document.getElementById('execution-score-detail'),
+    function persistState(showBadge = false) {
+      try {
+        localStorage.setItem(STATE_KEY, JSON.stringify(state));
+        if (showBadge) {
+          const el = document.getElementById("save-status");
+          el.textContent = "Enregistré dans le navigateur";
+          clearTimeout(saveTimer);
+          saveTimer = setTimeout(() => { el.textContent = ""; }, 1800);
+        }
+      } catch {}
+    }
 
-        resetBtn: document.getElementById('reset-day-btn'),
-        confirmResetGroup: document.getElementById('confirm-reset-group'),
-        confirmResetBtn: document.getElementById('confirm-reset-btn'),
-        cancelResetBtn: document.getElementById('cancel-reset-btn'),
+    function renderCockpit() {
+      const kpiContainer = document.getElementById("kpi-container");
+      kpiContainer.innerHTML = "";
 
-        goalForm: document.getElementById('add-goal-form'),
-        goalTitleInput: document.getElementById('goal-title-input'),
-        goalTargetInput: document.getElementById('goal-target-input'),
-        goalsList: document.getElementById('goals-list'),
-        goalsSummaryBadge: document.getElementById('goals-summary-badge'),
+      let totalCurrent = 0;
+      let totalTarget = 0;
+      let ratioSum = 0;
 
-        routineForm: document.getElementById('add-routine-form'),
-        routineTitleInput: document.getElementById('routine-title-input'),
-        routinesList: document.getElementById('routines-list'),
-        routinesCounterBadge: document.getElementById('routines-counter-badge'),
+      state.kpis.forEach((kpi, idx) => {
+        totalCurrent += kpi.current;
+        totalTarget += kpi.target;
+        const pct = Math.min(100, Math.round((kpi.current / Math.max(1, kpi.target)) * 100));
+        ratioSum += Math.min(1, kpi.current / Math.max(1, kpi.target));
 
-        actionForm: document.getElementById('add-action-form'),
-        actionTitleInput: document.getElementById('action-title-input'),
-        actionsList: document.getElementById('actions-list'),
-        actionsCountBadge: document.getElementById('actions-count-badge'),
-
-        debriefTextarea: document.getElementById('debrief-textarea'),
-        saveStatusIndicator: document.getElementById('save-status-indicator'),
-
-        toastBanner: document.getElementById('toast-banner'),
-        toastText: document.getElementById('toast-text'),
-      };
-
-      // Génération d'un identifiant unique simple
-      function uid(prefix) {
-        return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
-      }
-
-      // Affiche un message discret en bas à droite
-      function showToast(message) {
-        if (!els.toastBanner || !els.toastText) return;
-        els.toastText.textContent = message;
-        els.toastBanner.classList.remove('hidden');
-        clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(() => {
-          els.toastBanner.classList.add('hidden');
-        }, 2600);
-      }
-
-      // Met à jour l'indicateur "Sauvegardé" / "Enregistrement..."
-      function setSaveIndicator(statusText) {
-        if (!els.saveStatusIndicator) return;
-        els.saveStatusIndicator.innerHTML = `
-          <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
-          ${escapeHtml(statusText)}
+        const el = document.createElement("div");
+        el.className = "kpi-item";
+        el.innerHTML = `
+          <div class="kpi-top">
+            <span>${kpi.label}</span>
+            <span class="kpi-nums">${kpi.current} / ${kpi.target}</span>
+          </div>
+          <div class="bar"><div class="bar-fill" style="width: ${pct}%;"></div></div>
+          <div class="kpi-controls">
+            <button type="button" class="btn btn-ghost btn-sm" data-action="dec" data-idx="${idx}">-1</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-action="inc" data-idx="${idx}">+1</button>
+          </div>
         `;
-      }
+        kpiContainer.appendChild(el);
+      });
 
-      // Chargement sécurisé depuis localStorage avec fallback sur les données par défaut
-      function loadState() {
+      const routineContainer = document.getElementById("routine-container");
+      routineContainer.innerHTML = "";
+
+      let doneCount = 0;
+      state.routines.forEach((r, idx) => {
+        if (r.done) doneCount++;
+        const row = document.createElement("label");
+        row.className = `routine-row ${r.done ? "done" : ""}`;
+        row.innerHTML = `
+          <input type="checkbox" data-routine-idx="${idx}" ${r.done ? "checked" : ""} />
+          <span>${r.label}</span>
+        `;
+        routineContainer.appendChild(row);
+      });
+
+      const kpiAvg = state.kpis.length ? ratioSum / state.kpis.length : 0;
+      const routineAvg = state.routines.length ? doneCount / state.routines.length : 0;
+      const score = Math.round(((kpiAvg + routineAvg) / 2) * 100);
+
+      document.getElementById("daily-score").textContent = `${score}%`;
+      document.getElementById("kpi-summary").textContent =
+        `${totalCurrent} / ${totalTarget} unités • ${doneCount} / ${state.routines.length} routines`;
+
+      const debriefEl = document.getElementById("debrief-input");
+      if (debriefEl.value !== state.debrief) debriefEl.value = state.debrief;
+    }
+
+    function updateSimulator() {
+      const visitors = Math.max(0, Number(document.getElementById("sim-visitors").value) || 0);
+      const conv = Math.max(0, Number(document.getElementById("sim-conv").value) || 0);
+      const price = Math.max(0, Number(document.getElementById("sim-price").value) || 0);
+
+      const orders = Math.round(visitors * (conv / 100));
+      const revenue = orders * price;
+
+      document.getElementById("sim-orders").textContent = orders.toLocaleString("fr-FR");
+      document.getElementById("sim-revenue").textContent = `${revenue.toLocaleString("fr-FR")} €`;
+    }
+
+    document.querySelectorAll(".tab-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
+        document.querySelectorAll(".tab-panel").forEach((p) => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(`tab-${btn.dataset.tab}`).classList.add("active");
+      });
+    });
+
+    document.getElementById("kpi-container").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-action]");
+      if (!btn) return;
+      const idx = Number(btn.dataset.idx);
+      const kpi = state.kpis[idx];
+      if (!kpi) return;
+      if (btn.dataset.action === "inc") kpi.current = Math.min(kpi.target * 2, kpi.current + 1);
+      if (btn.dataset.action === "dec") kpi.current = Math.max(0, kpi.current - 1);
+      persistState(true);
+      renderCockpit();
+    });
+
+    document.getElementById("routine-container").addEventListener("change", (e) => {
+      const cb = e.target.closest("input[type='checkbox'][data-routine-idx]");
+      if (!cb) return;
+      const idx = Number(cb.dataset.routineIdx);
+      if (state.routines[idx]) {
+        state.routines[idx].done = cb.checked;
+        persistState(true);
+        renderCockpit();
+      }
+    });
+
+    document.getElementById("debrief-input").addEventListener("input", (e) => {
+      state.debrief = e.target.value;
+      persistState(true);
+    });
+
+    document.getElementById("copy-brief").addEventListener("click", async () => {
+      const text = document.getElementById("debrief-input").value.trim();
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        const el = document.getElementById("save-status");
+        el.textContent = "Bilan copié";
+        setTimeout(() => { el.textContent = ""; }, 1800);
+      } catch {}
+    });
+
+    document.getElementById("reset-demo").addEventListener("click", () => {
+      state = structuredClone(defaultState);
+      persistState(true);
+      renderCockpit();
+    });
+
+    document.querySelectorAll(".copy-proto").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const target = document.getElementById(btn.dataset.target);
+        if (!target) return;
         try {
-          const raw = localStorage.getItem(STORAGE_KEY);
-          if (!raw) return createDefaultState();
-          const parsed = JSON.parse(raw);
-          const fallback = createDefaultState();
-
-          return {
-            goals: Array.isArray(parsed.goals) ? parsed.goals : fallback.goals,
-            routines: Array.isArray(parsed.routines) ? parsed.routines : fallback.routines,
-            actions: Array.isArray(parsed.actions) ? parsed.actions : fallback.actions,
-            debrief: typeof parsed.debrief === 'string' ? parsed.debrief : fallback.debrief,
-            lastSavedAt: parsed.lastSavedAt || new Date().toISOString(),
-          };
-        } catch (err) {
-          console.error('Erreur de lecture localStorage :', err);
-          return createDefaultState();
-        }
-      }
-
-      // Sauvegarde automatique dans localStorage
-      function persistState(showSavingFeedback = false) {
-        try {
-          if (showSavingFeedback) {
-            setSaveIndicator('Enregistrement...');
-          }
-          state.lastSavedAt = new Date().toISOString();
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-
-          clearTimeout(saveBadgeTimeout);
-          saveBadgeTimeout = setTimeout(() => {
-            setSaveIndicator('Sauvegardé');
-          }, showSavingFeedback ? 250 : 0);
-        } catch (err) {
-          console.error('Erreur de sauvegarde localStorage :', err);
-          setSaveIndicator('Erreur stockage');
-          showToast('Impossible d’enregistrer dans le navigateur.');
-        }
-      }
-
-      // Échappement HTML pour éviter toute injection dans le rendu dynamique
-      function escapeHtml(str) {
-        return String(str)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;')
-          .replace(/'/g, '&#39;');
-      }
-
-      // Formate la date du jour en français
-      function formatSessionDate() {
-        try {
-          const now = new Date();
-          const formatted = new Intl.DateTimeFormat('fr-FR', {
-            weekday: 'long',
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-          }).format(now);
-          const capitalized = formatted.charAt(0).toUpperCase() + formatted.slice(1);
-          return `${capitalized} • Session active`;
-        } catch (_) {
-          return 'Session active';
-        }
-      }
-
-      // Calcule le score d'exécution en direct (0% à 100%) à partir des routines et des objectifs prioritaires
-      function calculateExecutionScore() {
-        const routineTotal = state.routines.length;
-        const routineDone = state.routines.filter((r) => Boolean(r.done)).length;
-        const routineRatio = routineTotal > 0 ? routineDone / routineTotal : 0;
-
-        let goalRatio = 0;
-        if (state.goals.length > 0) {
-          const sumRatios = state.goals.reduce((acc, g) => {
-            const target = Math.max(1, Number(g.target) || 1);
-            const current = Math.max(0, Number(g.current) || 0);
-            return acc + Math.min(1, current / target);
-          }, 0);
-          goalRatio = sumRatios / state.goals.length;
-        }
-
-        const hasRoutines = routineTotal > 0;
-        const hasGoals = state.goals.length > 0;
-
-        let score = 0;
-        if (hasRoutines && hasGoals) {
-          // Pondération équilibrée : 50% routines non-négociables, 50% objectifs prioritaires
-          score = Math.round(((routineRatio + goalRatio) / 2) * 100);
-        } else if (hasRoutines) {
-          score = Math.round(routineRatio * 100);
-        } else if (hasGoals) {
-          score = Math.round(goalRatio * 100);
-        }
-
-        return {
-          score: Math.max(0, Math.min(100, score)),
-          routineDone,
-          routineTotal,
-          goalPct: Math.round(goalRatio * 100),
-        };
-      }
-
-      // Rendu de l'en-tête et du score d'exécution
-      function renderHeaderScore() {
-        els.dateLabel.textContent = formatSessionDate();
-        const metrics = calculateExecutionScore();
-
-        els.scoreValue.textContent = `${metrics.score}%`;
-        els.scoreBar.style.width = `${metrics.score}%`;
-        els.scoreDetail.textContent =
-          `Routines : ${metrics.routineDone}/${metrics.routineTotal} • Objectifs : ${metrics.goalPct}%`;
-      }
-
-      // Rendu des objectifs prioritaires / compteurs cibles
-      function renderGoals() {
-        els.goalsSummaryBadge.textContent =
-          `${state.goals.length} ${state.goals.length > 1 ? 'objectifs' : 'objectif'}`;
-
-        if (state.goals.length === 0) {
-          els.goalsList.innerHTML = `
-            <div class="border border-dashed border-line rounded-xl p-6 text-center text-xs text-muted">
-              Aucun objectif prioritaire pour le moment. Ajoute une cible ci-dessus.
-            </div>
-          `;
-          return;
-        }
-
-        els.goalsList.innerHTML = state.goals
-          .map((goal) => {
-            const target = Math.max(1, Number(goal.target) || 1);
-            const current = Math.max(0, Number(goal.current) || 0);
-            const pct = Math.min(100, Math.round((current / target) * 100));
-            const reached = current >= target;
-
-            return `
-              <div class="bg-canvas border border-line rounded-xl p-4 transition" data-goal-id="${escapeHtml(goal.id)}">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2.5">
-                  <div class="min-w-0">
-                    <div class="flex items-center gap-2 flex-wrap">
-                      <span class="text-sm font-medium text-white break-words">${escapeHtml(goal.title)}</span>
-                      ${
-                        reached
-                          ? '<span class="text-[10px] uppercase tracking-wider font-semibold bg-white text-black px-2 py-0.5 rounded-full">Atteint</span>'
-                          : ''
-                      }
-                    </div>
-                  </div>
-
-                  <!-- Contrôles +1 / -1 et suppression -->
-                  <div class="flex items-center gap-1.5 self-end sm:self-center shrink-0">
-                    <button
-                      type="button"
-                      data-action="dec-goal"
-                      data-id="${escapeHtml(goal.id)}"
-                      aria-label="Diminuer de 1"
-                      class="w-9 h-9 rounded-lg border border-line bg-surface hover:bg-zinc-800 active:scale-95 text-white font-semibold flex items-center justify-center transition"
-                    >
-                      -1
-                    </button>
-                    <button
-                      type="button"
-                      data-action="inc-goal"
-                      data-id="${escapeHtml(goal.id)}"
-                      aria-label="Augmenter de 1"
-                      class="w-9 h-9 rounded-lg bg-white text-black hover:bg-zinc-200 active:scale-95 font-bold flex items-center justify-center transition"
-                    >
-                      +1
-                    </button>
-                    <button
-                      type="button"
-                      data-action="delete-goal"
-                      data-id="${escapeHtml(goal.id)}"
-                      aria-label="Supprimer l'objectif"
-                      title="Supprimer"
-                      class="w-9 h-9 rounded-lg border border-transparent hover:border-line text-muted hover:text-white flex items-center justify-center transition text-sm"
-                    >
-                      ×
-                    </button>
-                  </div>
-                </div>
-
-                <!-- Barre de progression + compteur numérique -->
-                <div class="flex items-center justify-between text-xs text-muted mb-1.5 tabular-nums">
-                  <span>${current} / ${target}</span>
-                  <span>${pct}%</span>
-                </div>
-                <div class="w-full h-1.5 bg-surface border border-line/70 rounded-full overflow-hidden">
-                  <div
-                    class="h-full bg-white transition-all duration-200 rounded-full"
-                    style="width: ${pct}%"
-                  ></div>
-                </div>
-              </div>
-            `;
-          })
-          .join('');
-      }
-
-      // Rendu des routines non-négociables
-      function renderRoutines() {
-        const doneCount = state.routines.filter((r) => Boolean(r.done)).length;
-        els.routinesCounterBadge.textContent = `${doneCount} / ${state.routines.length}`;
-
-        if (state.routines.length === 0) {
-          els.routinesList.innerHTML = `
-            <div class="border border-dashed border-line rounded-xl p-5 text-center text-xs text-muted">
-              Aucune routine définie. Ajoute tes règles non-négociables.
-            </div>
-          `;
-          return;
-        }
-
-        els.routinesList.innerHTML = state.routines
-          .map((routine) => {
-            const checkedAttr = routine.done ? 'checked' : '';
-            const textStyle = routine.done
-              ? 'line-through text-muted'
-              : 'text-white';
-
-            return `
-              <div class="flex items-center justify-between gap-2 bg-canvas border border-line rounded-xl px-3.5 py-2.5 transition">
-                <label class="flex items-center gap-3 cursor-pointer flex-1 min-w-0 select-none">
-                  <input
-                    type="checkbox"
-                    data-action="toggle-routine"
-                    data-id="${escapeHtml(routine.id)}"
-                    ${checkedAttr}
-                    class="w-4 h-4 accent-white rounded cursor-pointer shrink-0"
-                  />
-                  <span class="text-sm leading-snug break-words ${textStyle}">${escapeHtml(routine.title)}</span>
-                </label>
-                <button
-                  type="button"
-                  data-action="delete-routine"
-                  data-id="${escapeHtml(routine.id)}"
-                  aria-label="Supprimer la routine"
-                  title="Supprimer"
-                  class="text-muted hover:text-white px-2 py-1 rounded-lg text-sm transition shrink-0"
-                >
-                  ×
-                </button>
-              </div>
-            `;
-          })
-          .join('');
-      }
-
-      // Rendu du journal d'action / exécution
-      function renderActions() {
-        const doneCount = state.actions.filter((a) => Boolean(a.done)).length;
-        els.actionsCountBadge.textContent = `${doneCount}/${state.actions.length} fait`;
-
-        if (state.actions.length === 0) {
-          els.actionsList.innerHTML = `
-            <div class="border border-dashed border-line rounded-xl p-5 text-center text-xs text-muted">
-              Aucune action enregistrée. Ajoute ta prochaine étape concrète.
-            </div>
-          `;
-          return;
-        }
-
-        els.actionsList.innerHTML = state.actions
-          .map((item) => {
-            const titleClasses = item.done
-              ? 'line-through text-muted'
-              : 'text-white';
-            const btnLabel = item.done ? 'Réouvrir' : 'Terminer';
-            const btnClasses = item.done
-              ? 'border-line bg-surface text-muted hover:text-white'
-              : 'border-line bg-surface text-white hover:bg-white hover:text-black';
-
-            return `
-              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-canvas border border-line rounded-xl px-3.5 py-3 transition">
-                <div class="flex items-start sm:items-center gap-3 min-w-0 flex-1">
-                  <span class="mt-1.5 sm:mt-0 w-2 h-2 rounded-full shrink-0 ${item.done ? 'bg-zinc-600' : 'bg-white'}"></span>
-                  <span class="text-sm break-words ${titleClasses}">${escapeHtml(item.title)}</span>
-                </div>
-
-                <div class="flex items-center gap-2 self-end sm:self-center shrink-0">
-                  <button
-                    type="button"
-                    data-action="toggle-action"
-                    data-id="${escapeHtml(item.id)}"
-                    class="px-3 py-1.5 rounded-lg border text-xs font-medium transition ${btnClasses}"
-                  >
-                    ${btnLabel}
-                  </button>
-                  <button
-                    type="button"
-                    data-action="delete-action"
-                    data-id="${escapeHtml(item.id)}"
-                    aria-label="Supprimer l'action"
-                    title="Supprimer"
-                    class="px-2.5 py-1.5 rounded-lg text-muted hover:text-white text-xs transition"
-                  >
-                    Suppr.
-                  </button>
-                </div>
-              </div>
-            `;
-          })
-          .join('');
-      }
-
-      // Rendu complet de l'interface
-      function renderAll() {
-        renderHeaderScore();
-        renderGoals();
-        renderRoutines();
-        renderActions();
-        els.debriefTextarea.value = state.debrief || '';
-        setSaveIndicator('Sauvegardé');
-      }
-
-      // --- ÉCOUTEURS D'ÉVÉNEMENTS ---
-
-      // 1) Ajout d'un objectif prioritaire
-      els.goalForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const title = els.goalTitleInput.value.trim();
-        const target = Math.max(1, Math.min(10000, parseInt(els.goalTargetInput.value, 10) || 1));
-
-        if (!title) {
-          showToast('Saisis un titre pour ton objectif.');
-          return;
-        }
-
-        state.goals.unshift({
-          id: uid('goal'),
-          title,
-          current: 0,
-          target,
-        });
-
-        els.goalTitleInput.value = '';
-        els.goalTargetInput.value = '5';
-        persistState(true);
-        renderGoals();
-        renderHeaderScore();
-        showToast('Objectif ajouté.');
+          await navigator.clipboard.writeText(target.textContent);
+          const old = btn.textContent;
+          btn.textContent = "Copié";
+          setTimeout(() => { btn.textContent = old; }, 1400);
+        } catch {}
       });
+    });
 
-      // Actions sur les objectifs (+1, -1, supprimer) via délégation d'événement
-      els.goalsList.addEventListener('click', (e) => {
-        const btn = e.target.closest('button[data-action]');
-        if (!btn) return;
+    ["sim-visitors", "sim-conv", "sim-price"].forEach((id) => {
+      document.getElementById(id).addEventListener("input", updateSimulator);
+    });
 
-        const action = btn.getAttribute('data-action');
-        const id = btn.getAttribute('data-id');
-        const idx = state.goals.findIndex((g) => g.id === id);
-        if (idx === -1) return;
-
-        if (action === 'inc-goal') {
-          state.goals[idx].current = Math.max(0, (Number(state.goals[idx].current) || 0) + 1);
-        } else if (action === 'dec-goal') {
-          state.goals[idx].current = Math.max(0, (Number(state.goals[idx].current) || 0) - 1);
-        } else if (action === 'delete-goal') {
-          state.goals.splice(idx, 1);
-          showToast('Objectif supprimé.');
-        }
-
-        persistState(true);
-        renderGoals();
-        renderHeaderScore();
-      });
-
-      // 2) Ajout d'une routine non-négociable
-      els.routineForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const title = els.routineTitleInput.value.trim();
-        if (!title) {
-          showToast('Saisis une routine.');
-          return;
-        }
-
-        state.routines.push({
-          id: uid('routine'),
-          title,
-          done: false,
-        });
-
-        els.routineTitleInput.value = '';
-        persistState(true);
-        renderRoutines();
-        renderHeaderScore();
-        showToast('Routine ajoutée.');
-      });
-
-      // Bascule instantanée d'une routine
-      els.routinesList.addEventListener('change', (e) => {
-        const checkbox = e.target.closest('input[type="checkbox"][data-action="toggle-routine"]');
-        if (!checkbox) return;
-
-        const id = checkbox.getAttribute('data-id');
-        const routine = state.routines.find((r) => r.id === id);
-        if (!routine) return;
-
-        routine.done = checkbox.checked;
-        persistState(true);
-        renderRoutines();
-        renderHeaderScore();
-      });
-
-      // Suppression d'une routine
-      els.routinesList.addEventListener('click', (e) => {
-        const btn = e.target.closest('button[data-action="delete-routine"]');
-        if (!btn) return;
-
-        const id = btn.getAttribute('data-id');
-        state.routines = state.routines.filter((r) => r.id !== id);
-        persistState(true);
-        renderRoutines();
-        renderHeaderScore();
-        showToast('Routine supprimée.');
-      });
-
-      // 3) Ajout d'une action dans le journal d'exécution
-      els.actionForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const title = els.actionTitleInput.value.trim();
-        if (!title) {
-          showToast('Saisis une action à exécuter.');
-          return;
-        }
-
-        state.actions.unshift({
-          id: uid('action'),
-          title,
-          done: false,
-        });
-
-        els.actionTitleInput.value = '';
-        persistState(true);
-        renderActions();
-        showToast('Action ajoutée au journal.');
-      });
-
-      // Marquer fait / réouvrir / supprimer une action
-      els.actionsList.addEventListener('click', (e) => {
-        const btn = e.target.closest('button[data-action]');
-        if (!btn) return;
-
-        const action = btn.getAttribute('data-action');
-        const id = btn.getAttribute('data-id');
-        const idx = state.actions.findIndex((a) => a.id === id);
-        if (idx === -1) return;
-
-        if (action === 'toggle-action') {
-          state.actions[idx].done = !state.actions[idx].done;
-        } else if (action === 'delete-action') {
-          state.actions.splice(idx, 1);
-          showToast('Action supprimée.');
-        }
-
-        persistState(true);
-        renderActions();
-      });
-
-      // 4) Sauvegarde automatique du débrief de fin de journée
-      els.debriefTextarea.addEventListener('input', () => {
-        state.debrief = els.debriefTextarea.value;
-        persistState(true);
-      });
-
-      // 5) Réinitialisation propre de la journée (avec double clic de sécurité sans confirm())
-      els.resetBtn.addEventListener('click', () => {
-        els.resetBtn.classList.add('hidden');
-        els.confirmResetGroup.classList.remove('hidden');
-        els.confirmResetGroup.classList.add('flex');
-      });
-
-      els.cancelResetBtn.addEventListener('click', () => {
-        els.confirmResetGroup.classList.add('hidden');
-        els.confirmResetGroup.classList.remove('flex');
-        els.resetBtn.classList.remove('hidden');
-      });
-
-      els.confirmResetBtn.addEventListener('click', () => {
-        // Remet les compteurs d'objectifs à 0, décoche les routines, garde la structure propre
-        state.goals = state.goals.map((g) => ({ ...g, current: 0 }));
-        state.routines = state.routines.map((r) => ({ ...r, done: false }));
-        state.actions = state.actions.map((a) => ({ ...a, done: false }));
-        state.debrief = '';
-
-        persistState(true);
-        renderAll();
-
-        els.confirmResetGroup.classList.add('hidden');
-        els.confirmResetGroup.classList.remove('flex');
-        els.resetBtn.classList.remove('hidden');
-        showToast('Journée réinitialisée.');
-      });
-
-      // Initialisation au chargement de la page
-      renderAll();
-    })();
+    renderCockpit();
+    updateSimulator();
   </script>
 </body>
 </html>
