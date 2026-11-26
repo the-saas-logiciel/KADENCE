@@ -1,10 +1,11 @@
-µ<!DOCTYPE html>
+HTML
+<!DOCTYPE html>
 <html lang="fr" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#09090b" />
-  <title>KADENCE — Application</title>
+  <title>KADENCE</title>
   <link rel="manifest" href="manifest.json" />
   <style>
     :root {
@@ -32,7 +33,7 @@
     }
     a { color: inherit; text-decoration: none; }
 
-    .app-shell {
+    .app {
       max-width: 1140px;
       margin: 0 auto;
       padding: 18px 20px 48px;
@@ -53,7 +54,7 @@
 
     .brand-group { display: flex; align-items: center; gap: 12px; }
     .brand-dot { width: 9px; height: 9px; border-radius: 999px; background: var(--accent); }
-    .app-title { font-weight: 700; letter-spacing: 0.08em; font-size: 0.95rem; }
+    .app-title { font-weight: 700; letter-spacing: 0.08em; font-size: 0.96rem; }
     .app-sub { font-size: 0.78rem; color: var(--muted); }
 
     .top-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
@@ -61,7 +62,7 @@
     .pill {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
       background: var(--surface-2);
       border: 1px solid var(--border);
       padding: 7px 12px;
@@ -90,7 +91,7 @@
     .btn-ghost:hover { border-color: var(--border-strong); }
     .btn-sm { padding: 6px 10px; font-size: 0.78rem; border-radius: 7px; }
 
-    .nav-tabs {
+    .tabs {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
@@ -112,8 +113,8 @@
       border-color: var(--accent);
     }
 
-    .panel-view { display: none; }
-    .panel-view.active { display: block; }
+    .view { display: none; }
+    .view.active { display: block; }
 
     .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
     .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
@@ -125,10 +126,14 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 16px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
       gap: 12px;
+    }
+    .card.featured {
+      border-color: var(--border-strong);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.01));
     }
     .card-label {
       font-size: 0.74rem;
@@ -159,7 +164,7 @@
     .routine-item input[type="checkbox"] { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
     .routine-item.done span { text-decoration: line-through; color: var(--muted); }
 
-    input.field, textarea.area, select.field {
+    input.field, textarea.area {
       width: 100%;
       background: var(--bg);
       color: var(--text);
@@ -169,8 +174,640 @@
       font-family: inherit;
       font-size: 0.84rem;
     }
-    input.field:focus, textarea.area:focus, select.field:focus { outline: none; border-color: var(--border-strong); }
+    input.field:focus, textarea.area:focus { outline: none; border-color: var(--border-strong); }
     textarea.area { min-height: 120px; resize: vertical; }
 
     .row-add { display: grid; grid-template-columns: 1fr 68px auto; gap: 7px; }
-    .row-
+    .row-add-2 { display: grid; grid-template-columns: 1fr auto; gap: 7px; }
+
+    .plan-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      white-space: pre-line;
+      display: none;
+    }
+    .plan-box.visible { display: block; }
+
+    .price { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; margin: 6px 0; }
+    .price span { font-size: 0.85rem; font-weight: 400; color: var(--muted); }
+
+    .features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.86rem;
+      color: var(--muted);
+      margin: 8px 0 14px;
+    }
+    .features li::before { content: "— "; color: var(--text); }
+
+    .credit-banner {
+      margin-top: 14px;
+      background: rgba(251, 191, 36, 0.08);
+      border: 1px solid rgba(251, 191, 36, 0.35);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 0.84rem;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .credit-banner.visible { display: flex; }
+
+    .setting-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+
+    .status { font-size: 0.8rem; color: var(--ok); min-height: 18px; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand-group">
+        <span class="brand-dot"></span>
+        <div>
+          <div class="app-title" id="app-title">KADENCE</div>
+          <div class="app-sub" id="app-sub">Application d'exécution</div>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <div class="pill">
+          <span>Crédits :</span>
+          <strong id="credits-val">5 / 5</strong>
+        </div>
+        <div class="pill">
+          <span>Score :</span>
+          <strong id="score-val">0%</strong>
+        </div>
+        <button type="button" class="btn btn-ghost btn-sm" id="install-btn" style="display: none;">Installer</button>
+        <button type="button" class="btn btn-primary btn-sm" data-open-tab="forfaits">Forfaits</button>
+      </div>
+    </header>
+
+    <div class="tabs" role="tablist">
+      <button type="button" class="tab-btn active" data-tab="cockpit">Cockpit</button>
+      <button type="button" class="tab-btn" data-tab="protocoles">Protocoles</button>
+      <button type="button" class="tab-btn" data-tab="projection">Projection</button>
+      <button type="button" class="tab-btn" data-tab="forfaits">Forfaits</button>
+      <button type="button" class="tab-btn" data-tab="parametres">Paramètres</button>
+    </div>
+
+    <!-- COCKPIT -->
+    <section class="view active" id="view-cockpit">
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-label">Objectifs</div>
+          <div id="kpi-list" style="display: flex; flex-direction: column; gap: 9px;"></div>
+          <form class="row-add" id="kpi-form">
+            <input type="text" class="field" id="kpi-input" placeholder="Nouvel objectif..." maxlength="48" />
+            <input type="number" class="field" id="kpi-target-input" value="3" min="1" max="50" />
+            <button type="submit" class="btn btn-ghost btn-sm">+1 cr.</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Routines</div>
+          <div class="routine-list" id="routine-list"></div>
+          <form class="row-add-2" id="routine-form">
+            <input type="text" class="field" id="routine-input" placeholder="Nouvelle routine..." maxlength="60" />
+            <button type="submit" class="btn btn-ghost btn-sm">Ajouter</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Débrief &amp; Plan</div>
+          <textarea class="area" id="debrief-area" placeholder="Notes, blocages, priorité suivante..."></textarea>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" class="btn btn-ghost btn-sm" id="copy-note-btn">Copier</button>
+            <button type="button" class="btn btn-primary btn-sm" id="gen-plan-btn">Générer plan (-1 cr.)</button>
+          </div>
+          <div class="plan-box" id="plan-box"></div>
+          <div class="status" id="app-status"></div>
+        </div>
+      </div>
+
+      <div class="credit-banner" id="credit-banner">
+        <span><strong>0 crédit gratuit restant.</strong> Passe sur un forfait pour continuer sans limite.</span>
+        <button type="button" class="btn btn-primary btn-sm" data-open-tab="forfaits">Voir les forfaits</button>
+      </div>
+    </section>
+
+    <!-- PROTOCOLES -->
+    <section class="view" id="view-protocoles">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-label">Protocole 01</div>
+          <strong>Démarrage &amp; Priorité</strong>
+          <p style="color: var(--muted); font-size: 0.85rem;">
+            1. Choisir une priorité majeure avant toute dispersion.
+            2. Garder des cibles chiffrées simples.
+            3. Lancer le premier bloc immédiatement.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-label">Protocole 02</div>
+          <strong>Exécution en Bloc</strong>
+          <p style="color: var(--muted); font-size: 0.85rem;">
+            1. Définir la tâche exacte et le temps consacré.
+            2. Éviter les changements d'onglet ou de sujet.
+            3. Incrémenter l'objectif dès qu'une unité est finie.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-label">Protocole 03</div>
+          <strong>Point de Mi-Journée</strong>
+          <p style="color: var(--muted); font-size: 0.85rem;">
+            1. Vérifier le score et l'écart restant sur les cibles.
+            2. Réajuster l'ordre des tâches si besoin.
+            3. Couper le superflu.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-label">Protocole 04</div>
+          <strong>Clôture &amp; Lendemain</strong>
+          <p style="color: var(--muted); font-size: 0.85rem;">
+            1. Cocher les routines effectuées.
+            2. Écrire la première action de demain dans le débrief.
+            3. Fermer la session proprement.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTION -->
+    <section class="view" id="view-projection">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-label">Paramètres de projection</div>
+          <label class="setting-row">
+            Volume mensuel
+            <input type="number" class="field" id="proj-vol" value="1000" min="0" step="100" />
+          </label>
+          <label class="setting-row">
+            Taux (%)
+            <input type="number" class="field" id="proj-rate" value="2" min="0" max="100" step="0.5" />
+          </label>
+          <label class="setting-row">
+            Valeur unitaire (€)
+            <input type="number" class="field" id="proj-val" value="79" min="1" step="1" />
+          </label>
+        </div>
+        <div class="card">
+          <div class="card-label">Résultat estimé</div>
+          <div class="kpi-item">
+            <div class="kpi-top"><span>Unités estimées / mois</span><strong id="proj-units">20</strong></div>
+          </div>
+          <div class="kpi-item">
+            <div class="kpi-top"><span>Total estimé</span><strong id="proj-total">1 580 €</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORFAITS -->
+    <section class="view" id="view-forfaits">
+      <div class="grid-2">
+        <div class="card">
+          <div>
+            <div class="card-label">Essentiel</div>
+            <div class="price">29 € <span>/ mois</span></div>
+            <p style="color: var(--muted); font-size: 0.86rem;">
+              Accès mensuel au cockpit, aux routines et aux protocoles.
+            </p>
+            <ul class="features">
+              <li>Cockpit avec score automatique</li>
+              <li>Protocoles &amp; suivi quotidien</li>
+              <li>Gestion d'abonnement via Stripe</li>
+            </ul>
+          </div>
+          <a
+            href="https://buy.stripe.com/REMPLACE_PAR_TON_LIEN_ESSENTIEL"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-ghost"
+          >
+            Choisir Essentiel — 29 € / mois
+          </a>
+        </div>
+
+        <div class="card featured">
+          <div>
+            <div class="card-label">Système Complet</div>
+            <div class="price">79 € <span>/ paiement unique</span></div>
+            <p style="color: var(--muted); font-size: 0.86rem;">
+              Accès complet à tous les modules et outils de projection en un seul paiement.
+            </p>
+            <ul class="features">
+              <li>Tout le contenu Essentiel</li>
+              <li>Tous les protocoles &amp; projections</li>
+              <li>Paiement unique sécurisé Stripe</li>
+            </ul>
+          </div>
+          <a
+            href="https://buy.stripe.com/REMPLACE_PAR_TON_LIEN_SYSTEME_COMPLET"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-primary"
+          >
+            Choisir Système Complet — 79 €
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PARAMÈTRES -->
+    <section class="view" id="view-parametres">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-label">Personnalisation</div>
+          <label class="setting-row">
+            Nom de l'application / espace
+            <input type="text" class="field" id="cfg-title" maxlength="32" />
+          </label>
+          <label class="setting-row">
+            Sous-titre
+            <input type="text" class="field" id="cfg-subtitle" maxlength="60" />
+          </label>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" class="btn btn-primary btn-sm" id="save-cfg-btn">Enregistrer</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="clear-all-btn">Vider les données</button>
+          </div>
+          <div class="status" id="cfg-status"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Données locales (JSON)</div>
+          <p style="color: var(--muted); font-size: 0.84rem;">
+            Toutes tes modifications sont enregistrées dans ton navigateur.
+          </p>
+          <textarea class="area" id="json-box" readonly></textarea>
+          <div>
+            <button type="button" class="btn btn-ghost btn-sm" id="copy-json-btn">Copier JSON</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const STORE_KEY = "kadence_direct_app_v1";
+    const CREDITS_KEY = "kadence_free_credits_v1";
+    const MAX_CREDITS = 5;
+
+    const defaultData = {
+      config: {
+        title: "KADENCE",
+        subtitle: "Application d'exécution"
+      },
+      kpis: [
+        { label: "Objectif 1", current: 0, target: 3 }
+      ],
+      routines: [
+        { label: "Routine 1", done: false }
+      ],
+      debrief: "",
+      plan: ""
+    };
+
+    function getCredits() {
+      try {
+        const raw = localStorage.getItem(CREDITS_KEY);
+        if (raw === null) {
+          localStorage.setItem(CREDITS_KEY, String(MAX_CREDITS));
+          return MAX_CREDITS;
+        }
+        return Math.max(0, Number(raw) || 0);
+      } catch {
+        return MAX_CREDITS;
+      }
+    }
+
+    function consumeCredit() {
+      const cur = getCredits();
+      if (cur <= 0) {
+        renderCredits();
+        return false;
+      }
+      try {
+        localStorage.setItem(CREDITS_KEY, String(cur - 1));
+      } catch {}
+      renderCredits();
+      return true;
+    }
+
+    function renderCredits() {
+      const c = getCredits();
+      document.getElementById("credits-val").textContent = `${c} / ${MAX_CREDITS}`;
+      const banner = document.getElementById("credit-banner");
+      if (c <= 0) banner.classList.add("visible");
+      else banner.classList.remove("visible");
+    }
+
+    function loadData() {
+      try {
+        const raw = localStorage.getItem(STORE_KEY);
+        if (!raw) return structuredClone(defaultData);
+        const p = JSON.parse(raw);
+        return {
+          config: {
+            title: p.config?.title || defaultData.config.title,
+            subtitle: p.config?.subtitle || defaultData.config.subtitle
+          },
+          kpis: Array.isArray(p.kpis) ? p.kpis : structuredClone(defaultData.kpis),
+          routines: Array.isArray(p.routines) ? p.routines : structuredClone(defaultData.routines),
+          debrief: typeof p.debrief === "string" ? p.debrief : "",
+          plan: typeof p.plan === "string" ? p.plan : ""
+        };
+      } catch {
+        return structuredClone(defaultData);
+      }
+    }
+
+    let data = loadData();
+
+    function saveData(msg = "") {
+      try {
+        localStorage.setItem(STORE_KEY, JSON.stringify(data));
+      } catch {}
+      if (msg) {
+        const el = document.getElementById("app-status");
+        el.textContent = msg;
+        setTimeout(() => { el.textContent = ""; }, 1500);
+      }
+      syncJson();
+    }
+
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, (m) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[m]));
+    }
+
+    function switchTab(name) {
+      document.querySelectorAll(".tab-btn").forEach((b) => {
+        b.classList.toggle("active", b.dataset.tab === name);
+      });
+      document.querySelectorAll(".view").forEach((v) => {
+        v.classList.toggle("active", v.id === `view-${name}`);
+      });
+    }
+
+    function render() {
+      document.getElementById("app-title").textContent = data.config.title;
+      document.getElementById("app-sub").textContent = data.config.subtitle;
+      document.getElementById("cfg-title").value = data.config.title;
+      document.getElementById("cfg-subtitle").value = data.config.subtitle;
+
+      const kpiList = document.getElementById("kpi-list");
+      kpiList.innerHTML = "";
+      let ratio = 0;
+
+      data.kpis.forEach((k, idx) => {
+        const pct = Math.min(100, Math.round((k.current / Math.max(1, k.target)) * 100));
+        ratio += Math.min(1, k.current / Math.max(1, k.target));
+        const div = document.createElement("div");
+        div.className = "kpi-item";
+        div.innerHTML = `
+          <div class="kpi-top">
+            <span>${esc(k.label)}</span>
+            <span class="kpi-nums">${k.current} / ${k.target}</span>
+          </div>
+          <div class="bar"><div class="bar-fill" style="width: ${pct}%;"></div></div>
+          <div class="kpi-actions">
+            <button type="button" class="btn btn-ghost btn-sm" data-kact="dec" data-idx="${idx}">-1</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-kact="inc" data-idx="${idx}">+1</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-kact="edit" data-idx="${idx}">Éditer</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-kact="del" data-idx="${idx}">Suppr</button>
+          </div>
+        `;
+        kpiList.appendChild(div);
+      });
+
+      const rList = document.getElementById("routine-list");
+      rList.innerHTML = "";
+      let done = 0;
+
+      data.routines.forEach((r, idx) => {
+        if (r.done) done++;
+        const row = document.createElement("div");
+        row.className = `routine-item ${r.done ? "done" : ""}`;
+        row.innerHTML = `
+          <label class="routine-check">
+            <input type="checkbox" data-ridx="${idx}" ${r.done ? "checked" : ""} />
+            <span>${esc(r.label)}</span>
+          </label>
+          <button type="button" class="btn btn-ghost btn-sm" data-rdel="${idx}">×</button>
+        `;
+        rList.appendChild(row);
+      });
+
+      const kAvg = data.kpis.length ? ratio / data.kpis.length : 0;
+      const rAvg = data.routines.length ? done / data.routines.length : 0;
+      const score = Math.round(((kAvg + rAvg) / 2) * 100);
+      document.getElementById("score-val").textContent = `${score}%`;
+
+      const area = document.getElementById("debrief-area");
+      if (area.value !== data.debrief) area.value = data.debrief;
+
+      const planBox = document.getElementById("plan-box");
+      if (data.plan) {
+        planBox.textContent = data.plan;
+        planBox.classList.add("visible");
+      } else {
+        planBox.textContent = "";
+        planBox.classList.remove("visible");
+      }
+
+      syncJson();
+    }
+
+    function syncJson() {
+      const box = document.getElementById("json-box");
+      if (box) box.value = JSON.stringify(data, null, 2);
+    }
+
+    function updateProjection() {
+      const vol = Math.max(0, Number(document.getElementById("proj-vol").value) || 0);
+      const rate = Math.max(0, Number(document.getElementById("proj-rate").value) || 0);
+      const val = Math.max(0, Number(document.getElementById("proj-val").value) || 0);
+      const units = Math.round(vol * (rate / 100));
+      document.getElementById("proj-units").textContent = units.toLocaleString("fr-FR");
+      document.getElementById("proj-total").textContent = `${(units * val).toLocaleString("fr-FR")} €`;
+    }
+
+    document.querySelectorAll(".tab-btn").forEach((b) => {
+      b.addEventListener("click", () => switchTab(b.dataset.tab));
+    });
+
+    document.querySelectorAll("[data-open-tab]").forEach((b) => {
+      b.addEventListener("click", () => switchTab(b.dataset.openTab));
+    });
+
+    document.getElementById("kpi-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const inp = document.getElementById("kpi-input");
+      const tgt = document.getElementById("kpi-target-input");
+      const label = inp.value.trim();
+      if (!label) return;
+      if (!consumeCredit()) return;
+      data.kpis.push({
+        label,
+        current: 0,
+        target: Math.max(1, Math.min(50, Number(tgt.value) || 3))
+      });
+      inp.value = "";
+      saveData("Ajouté");
+      render();
+    });
+
+    document.getElementById("kpi-list").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-kact]");
+      if (!btn) return;
+      const idx = Number(btn.dataset.idx);
+      const item = data.kpis[idx];
+      if (!item) return;
+      const act = btn.dataset.kact;
+      if (act === "inc") item.current = Math.min(item.target * 2, item.current + 1);
+      if (act === "dec") item.current = Math.max(0, item.current - 1);
+      if (act === "edit") {
+        const nextLabel = prompt("Nom :", item.label);
+        if (nextLabel && nextLabel.trim()) item.label = nextLabel.trim().slice(0, 48);
+        const nextTarget = Number(prompt("Cible :", String(item.target)));
+        if (nextTarget >= 1 && nextTarget <= 50) item.target = Math.round(nextTarget);
+      }
+      if (act === "del") data.kpis.splice(idx, 1);
+      saveData("Enregistré");
+      render();
+    });
+
+    document.getElementById("routine-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const inp = document.getElementById("routine-input");
+      const label = inp.value.trim();
+      if (!label) return;
+      data.routines.push({ label, done: false });
+      inp.value = "";
+      saveData("Ajoutée");
+      render();
+    });
+
+    document.getElementById("routine-list").addEventListener("change", (e) => {
+      const cb = e.target.closest("input[type='checkbox'][data-ridx]");
+      if (!cb) return;
+      const idx = Number(cb.dataset.ridx);
+      if (data.routines[idx]) {
+        data.routines[idx].done = cb.checked;
+        saveData("Enregistré");
+        render();
+      }
+    });
+
+    document.getElementById("routine-list").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-rdel]");
+      if (!btn) return;
+      data.routines.splice(Number(btn.dataset.rdel), 1);
+      saveData("Supprimée");
+      render();
+    });
+
+    document.getElementById("debrief-area").addEventListener("input", (e) => {
+      data.debrief = e.target.value;
+      saveData();
+    });
+
+    document.getElementById("gen-plan-btn").addEventListener("click", () => {
+      if (!consumeCredit()) return;
+      const todo = data.kpis
+        .filter((k) => k.current < k.target)
+        .map((k) => `- ${k.label} : ${k.target - k.current} restant(s)`);
+      const note = data.debrief.trim() || "Aucune note";
+      data.plan =
+        "PLAN GÉNÉRÉ\n" +
+        (todo.length ? todo.join("\n") : "- Toutes les cibles sont atteintes") +
+        `\nNote : ${note}`;
+      saveData("Plan généré");
+      render();
+    });
+
+    document.getElementById("copy-note-btn").addEventListener("click", async () => {
+      const txt = document.getElementById("debrief-area").value.trim();
+      if (!txt) return;
+      try {
+        await navigator.clipboard.writeText(txt);
+        saveData("Copié");
+      } catch {}
+    });
+
+    document.getElementById("save-cfg-btn").addEventListener("click", () => {
+      const t = document.getElementById("cfg-title").value.trim();
+      const s = document.getElementById("cfg-subtitle").value.trim();
+      if (t) data.config.title = t;
+      if (s) data.config.subtitle = s;
+      saveData();
+      render();
+      const st = document.getElementById("cfg-status");
+      st.textContent = "Enregistré";
+      setTimeout(() => { st.textContent = ""; }, 1500);
+    });
+
+    document.getElementById("clear-all-btn").addEventListener("click", () => {
+      data = structuredClone(defaultData);
+      saveData("Réinitialisé");
+      render();
+    });
+
+    document.getElementById("copy-json-btn").addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(document.getElementById("json-box").value);
+        const st = document.getElementById("cfg-status");
+        st.textContent = "JSON copié";
+        setTimeout(() => { st.textContent = ""; }, 1500);
+      } catch {}
+    });
+
+    ["proj-vol", "proj-rate", "proj-val"].forEach((id) => {
+      document.getElementById(id).addEventListener("input", updateProjection);
+    });
+
+    let deferredInstall = null;
+    const installBtn = document.getElementById("install-btn");
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredInstall = e;
+      if (installBtn) installBtn.style.display = "inline-flex";
+    });
+    if (installBtn) {
+      installBtn.addEventListener("click", async () => {
+        if (!deferredInstall) return;
+        deferredInstall.prompt();
+        await deferredInstall.userChoice;
+        deferredInstall = null;
+        installBtn.style.display = "none";
+      });
+    }
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js").catch(() => {});
+      });
+    }
+
+    renderCredits();
+    render();
+    updateProjection();
+  </script>
+</body>
+</html>
