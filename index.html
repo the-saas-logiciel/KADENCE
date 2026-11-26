@@ -1,23 +1,24 @@
+HTML
 <!DOCTYPE html>
 <html lang="fr" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#09090b" />
-  <title>KADENCE</title>
+  <meta name="theme-color" content="#09090c" />
+  <title>KADENCE — Suite d'Exécution</title>
   <link rel="manifest" href="manifest.json" />
   <style>
     :root {
-      --bg: #09090b;
-      --surface: #111115;
-      --surface-2: #17171d;
-      --surface-3: #1f1f27;
+      --bg: #08080a;
+      --surface: #101014;
+      --surface-2: #16161c;
+      --surface-3: #1e1e26;
       --border: rgba(255, 255, 255, 0.08);
-      --border-strong: rgba(255, 255, 255, 0.2);
+      --border-strong: rgba(255, 255, 255, 0.22);
       --text: #f5f5f7;
-      --muted: #9c9ca8;
+      --muted: #9a9aa6;
       --accent: #ffffff;
-      --accent-ink: #09090b;
+      --accent-ink: #08080a;
       --ok: #34d399;
       --warn: #fbbf24;
       --radius: 16px;
@@ -26,8 +27,8 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background:
-        radial-gradient(circle at 15% -10%, rgba(255, 255, 255, 0.06), transparent 42%),
-        radial-gradient(circle at 85% 0%, rgba(255, 255, 255, 0.04), transparent 38%),
+        radial-gradient(circle at 12% -8%, rgba(255, 255, 255, 0.065), transparent 40%),
+        radial-gradient(circle at 88% 4%, rgba(255, 255, 255, 0.04), transparent 36%),
         var(--bg);
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
@@ -37,49 +38,49 @@
     }
     a { color: inherit; text-decoration: none; }
 
-    .shell {
-      max-width: 1180px;
+    .app-wrap {
+      max-width: 1220px;
       margin: 0 auto;
-      padding: 18px 20px 56px;
+      padding: 18px 20px 64px;
     }
 
-    /* Topbar */
+    /* Top bar */
     .topbar {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 14px;
-      background: rgba(17, 17, 21, 0.88);
-      backdrop-filter: blur(14px);
+      background: rgba(16, 16, 20, 0.88);
+      backdrop-filter: blur(16px);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 14px 18px;
       margin-bottom: 16px;
       position: sticky;
       top: 12px;
-      z-index: 30;
+      z-index: 40;
     }
 
     .brand { display: flex; align-items: center; gap: 12px; }
-    .brand-mark {
-      width: 34px; height: 34px; border-radius: 10px;
-      background: var(--surface-3); border: 1px solid var(--border-strong);
-      display: grid; place-items: center; font-weight: 800; font-size: 0.9rem; letter-spacing: 0.04em;
+    .brand-badge {
+      width: 36px; height: 36px; border-radius: 11px;
+      background: linear-gradient(145deg, #24242e, #121217);
+      border: 1px solid var(--border-strong);
+      display: grid; place-items: center; font-weight: 800; font-size: 0.95rem;
     }
-    .brand-name { font-weight: 700; letter-spacing: 0.1em; font-size: 0.95rem; }
+    .brand-title { font-weight: 700; letter-spacing: 0.11em; font-size: 0.96rem; }
     .brand-sub { font-size: 0.76rem; color: var(--muted); }
 
-    .top-right { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-
-    .chip {
+    .top-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .metric-pill {
       display: inline-flex; align-items: center; gap: 7px;
       background: var(--surface-2); border: 1px solid var(--border);
       padding: 7px 12px; border-radius: 10px; font-size: 0.82rem;
     }
-    .chip strong { font-variant-numeric: tabular-nums; }
+    .metric-pill strong { font-variant-numeric: tabular-nums; }
 
-    /* Buttons */
+    /* Buttons & Inputs */
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 6px;
       padding: 10px 14px; border-radius: 10px; font-size: 0.84rem; font-weight: 600;
@@ -93,10 +94,38 @@
     .btn-ghost:hover { border-color: var(--border-strong); background: var(--surface-3); }
     .btn-sm { padding: 6px 10px; font-size: 0.78rem; border-radius: 8px; }
 
-    /* Navigation Tabs */
+    input.field, textarea.area, select.field {
+      width: 100%; background: var(--bg); color: var(--text);
+      border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px;
+      font-family: inherit; font-size: 0.84rem;
+    }
+    input.field:focus, textarea.area:focus, select.field:focus {
+      outline: none; border-color: var(--border-strong);
+    }
+    textarea.area { min-height: 92px; resize: vertical; }
+
+    /* Summary bar */
+    .summary-strip {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 900px) {
+      .summary-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 520px) {
+      .summary-strip { grid-template-columns: 1fr; }
+    }
+    .stat-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 13px 15px;
+    }
+    .stat-k { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 700; }
+    .stat-v { font-size: 1.35rem; font-weight: 700; margin-top: 3px; font-variant-numeric: tabular-nums; }
+    .stat-hint { font-size: 0.76rem; color: var(--muted); margin-top: 2px; }
+
+    /* Navigation */
     .tabs {
-      display: flex; flex-wrap: wrap; gap: 8px;
-      margin-bottom: 18px;
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px;
     }
     .tab-btn {
       padding: 9px 15px; border-radius: 10px;
@@ -105,17 +134,15 @@
       cursor: pointer; transition: all 0.15s ease;
     }
     .tab-btn:hover { color: var(--text); border-color: var(--border-strong); }
-    .tab-btn.active {
-      background: var(--accent); color: var(--accent-ink); border-color: var(--accent);
-    }
+    .tab-btn.active { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
 
     .view { display: none; }
     .view.active { display: block; }
 
-    /* Grid & Cards */
+    /* Layouts */
     .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
     .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-    @media (max-width: 960px) {
+    @media (max-width: 980px) {
       .grid-3, .grid-2 { grid-template-columns: 1fr; }
     }
 
@@ -126,84 +153,62 @@
     }
     .card.featured {
       border-color: var(--border-strong);
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.01));
     }
     .card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-    .card-tag {
-      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.09em;
-      color: var(--muted); font-weight: 700;
-    }
+    .card-tag { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); font-weight: 700; }
+    .muted-sm { font-size: 0.82rem; color: var(--muted); }
 
-    /* Progress & KPIs */
-    .global-progress {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 14px 18px; margin-bottom: 16px;
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px;
-    }
-    .progress-track {
-      flex: 1; min-width: 200px; height: 8px;
-      background: var(--surface-3); border-radius: 999px; overflow: hidden;
-    }
-    .progress-fill { height: 100%; background: var(--accent); transition: width 0.25s ease; }
-
-    .kpi-card {
+    /* KPIs & Routines */
+    .kpi-item {
       background: var(--bg); border: 1px solid var(--border);
       border-radius: 12px; padding: 12px;
     }
-    .kpi-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 8px; font-size: 0.88rem; font-weight: 500; }
-    .kpi-meta { font-size: 0.78rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .kpi-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.87rem; font-weight: 500; }
     .bar { height: 6px; background: var(--surface-2); border-radius: 999px; overflow: hidden; margin-bottom: 10px; }
     .bar-fill { height: 100%; background: var(--accent); transition: width 0.2s ease; }
     .kpi-btns { display: flex; flex-wrap: wrap; gap: 6px; }
 
-    /* Routines */
+    .add-kpi { display: grid; grid-template-columns: 1fr 68px auto; gap: 7px; }
+    .add-routine { display: grid; grid-template-columns: 1fr auto; gap: 7px; }
+
     .routine-list { display: flex; flex-direction: column; gap: 8px; }
-    .routine-card {
+    .routine-row {
       display: flex; align-items: center; justify-content: space-between; gap: 10px;
       background: var(--bg); border: 1px solid var(--border);
       border-radius: 12px; padding: 10px 12px; font-size: 0.85rem;
     }
     .routine-label { display: flex; align-items: center; gap: 10px; cursor: pointer; flex: 1; }
-    .routine-card input[type="checkbox"] { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
-    .routine-card.done span { text-decoration: line-through; color: var(--muted); }
+    .routine-row input[type="checkbox"] { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
+    .routine-row.done span { text-decoration: line-through; color: var(--muted); }
 
-    /* Timer */
-    .timer-box {
+    /* Timer & Session log */
+    .timer-panel {
       background: var(--bg); border: 1px solid var(--border);
       border-radius: 12px; padding: 14px;
       display: flex; flex-direction: column; gap: 10px;
     }
-    .timer-display {
-      font-size: 1.85rem; font-weight: 700; letter-spacing: 0.04em;
-      font-variant-numeric: tabular-nums;
-    }
-    .timer-presets { display: flex; flex-wrap: wrap; gap: 6px; }
+    .timer-clock { font-size: 2rem; font-weight: 700; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }
+    .preset-row { display: flex; flex-wrap: wrap; gap: 6px; }
 
-    /* Inputs & Panels */
-    input.field, textarea.area {
-      width: 100%; background: var(--bg); color: var(--text);
-      border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px;
-      font-family: inherit; font-size: 0.85rem;
+    .log-list { display: flex; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto; }
+    .log-entry {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 11px; padding: 11px 12px; font-size: 0.83rem;
+      display: flex; flex-direction: column; gap: 4px;
     }
-    input.field:focus, textarea.area:focus { outline: none; border-color: var(--border-strong); }
-    textarea.area { min-height: 92px; resize: vertical; }
+    .log-meta { display: flex; justify-content: space-between; gap: 8px; font-size: 0.74rem; color: var(--muted); }
 
-    .add-kpi { display: grid; grid-template-columns: 1fr 68px auto; gap: 7px; }
-    .add-routine { display: grid; grid-template-columns: 1fr auto; gap: 7px; }
-
-    .structured-plan {
-      background: var(--bg); border: 1px solid var(--border-strong);
-      border-radius: 12px; padding: 13px;
-      display: none; flex-direction: column; gap: 8px; font-size: 0.84rem;
-    }
-    .structured-plan.visible { display: flex; }
-    .plan-step {
-      padding: 8px 10px; background: var(--surface-2); border-radius: 8px;
-      color: var(--text); font-size: 0.82rem;
+    /* Plan builder */
+    .plan-steps { display: flex; flex-direction: column; gap: 8px; }
+    .step-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 11px; padding: 10px 12px; font-size: 0.83rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
     }
 
     /* Pricing */
-    .price { font-size: 2.1rem; font-weight: 700; letter-spacing: -0.02em; margin: 4px 0; }
+    .price { font-size: 2.15rem; font-weight: 700; letter-spacing: -0.02em; margin: 4px 0; }
     .price span { font-size: 0.86rem; font-weight: 400; color: var(--muted); }
     .features {
       list-style: none; display: flex; flex-direction: column; gap: 8px;
@@ -211,7 +216,7 @@
     }
     .features li::before { content: "— "; color: var(--text); }
 
-    .lock-banner {
+    .credit-alert {
       margin-top: 16px;
       background: rgba(251, 191, 36, 0.08);
       border: 1px solid rgba(251, 191, 36, 0.35);
@@ -219,204 +224,256 @@
       font-size: 0.85rem; display: none;
       align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
     }
-    .lock-banner.visible { display: flex; }
+    .credit-alert.visible { display: flex; }
 
-    .toast { font-size: 0.8rem; color: var(--ok); min-height: 18px; }
+    .feedback { font-size: 0.8rem; color: var(--ok); min-height: 18px; }
   </style>
 </head>
 <body>
-  <div class="shell">
+  <div class="app-wrap">
     <header class="topbar">
       <div class="brand">
-        <div class="brand-mark">K</div>
+        <div class="brand-badge">K</div>
         <div>
-          <div class="brand-name">KADENCE</div>
-          <div class="brand-sub">Système d'exécution &amp; cadence</div>
+          <div class="brand-title">KADENCE</div>
+          <div class="brand-sub">Suite d'exécution, cadence &amp; pilotage</div>
         </div>
       </div>
 
-      <div class="top-right">
-        <div class="chip">
+      <div class="top-controls">
+        <div class="metric-pill">
           <span>Crédits</span>
-          <strong id="credits-ui">5 / 5</strong>
+          <strong id="top-credits">5 / 5</strong>
         </div>
-        <div class="chip">
+        <div class="metric-pill">
           <span>Score</span>
-          <strong id="score-ui">0%</strong>
+          <strong id="top-score">0%</strong>
         </div>
-        <button type="button" class="btn btn-ghost btn-sm" id="install-btn" style="display: none;">Installer l'appli</button>
-        <button type="button" class="btn btn-primary btn-sm" data-jump="forfaits">Forfaits</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="install-pwa-btn" style="display: none;">Installer l'appli</button>
+        <button type="button" class="btn btn-primary btn-sm" data-tab-jump="forfaits">Forfaits</button>
       </div>
     </header>
 
-    <div class="global-progress">
-      <div style="font-size: 0.84rem; color: var(--muted);">
-        Progression du jour : <strong style="color: var(--text);" id="progress-label">0%</strong>
+    <div class="summary-strip">
+      <div class="stat-box">
+        <div class="stat-k">Score global</div>
+        <div class="stat-v" id="stat-score">0%</div>
+        <div class="stat-hint" id="stat-score-hint">Objectifs + routines</div>
       </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="progress-fill" style="width: 0%;"></div>
+      <div class="stat-box">
+        <div class="stat-k">Temps focalisé</div>
+        <div class="stat-v" id="stat-focus-mins">0 min</div>
+        <div class="stat-hint" id="stat-sessions-count">0 session enregistrée</div>
       </div>
-      <div style="font-size: 0.8rem; color: var(--muted);" id="summary-label">0 objectif • 0 routine</div>
+      <div class="stat-box">
+        <div class="stat-k">Routines validées</div>
+        <div class="stat-v" id="stat-routines">0 / 0</div>
+        <div class="stat-hint">Cadence quotidienne</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-k">Entrées journal</div>
+        <div class="stat-v" id="stat-journal">0</div>
+        <div class="stat-hint">Historique sauvegardé</div>
+      </div>
     </div>
 
     <nav class="tabs" role="tablist">
       <button type="button" class="tab-btn active" data-tab="cockpit">Cockpit</button>
+      <button type="button" class="tab-btn" data-tab="sessions">Chrono &amp; Journal</button>
       <button type="button" class="tab-btn" data-tab="atelier">Atelier Plan</button>
       <button type="button" class="tab-btn" data-tab="protocoles">Protocoles</button>
       <button type="button" class="tab-btn" data-tab="projection">Projection</button>
       <button type="button" class="tab-btn" data-tab="forfaits">Forfaits</button>
     </nav>
 
-    <!-- COCKPIT -->
+    <!-- 1. COCKPIT -->
     <section class="view active" id="view-cockpit">
       <div class="grid-3">
-        <!-- Objectifs -->
         <div class="card">
           <div class="card-head">
-            <span class="card-tag">Objectifs actifs</span>
-            <span class="kpi-meta" id="kpi-count-label">0</span>
+            <span class="card-tag">Objectifs chiffrés</span>
+            <span class="muted-sm" id="kpi-badge">0</span>
           </div>
           <div id="kpi-list" style="display: flex; flex-direction: column; gap: 9px;"></div>
           <form class="add-kpi" id="kpi-form">
-            <input type="text" class="field" id="kpi-name" placeholder="Ex. Bloc profond, Livraison..." maxlength="48" />
-            <input type="number" class="field" id="kpi-target" value="3" min="1" max="50" />
+            <input type="text" class="field" id="kpi-title" placeholder="Nouvel objectif..." maxlength="48" />
+            <input type="number" class="field" id="kpi-goal" value="3" min="1" max="50" />
             <button type="submit" class="btn btn-ghost btn-sm">+1 cr.</button>
           </form>
         </div>
 
-        <!-- Routines -->
         <div class="card">
           <div class="card-head">
-            <span class="card-tag">Routines quotidiennes</span>
-            <span class="kpi-meta" id="routine-count-label">0</span>
+            <span class="card-tag">Routines du jour</span>
+            <span class="muted-sm" id="routine-badge">0/0</span>
           </div>
           <div class="routine-list" id="routine-list"></div>
           <form class="add-routine" id="routine-form">
-            <input type="text" class="field" id="routine-name" placeholder="Ajouter une routine..." maxlength="60" />
+            <input type="text" class="field" id="routine-title" placeholder="Ajouter une routine..." maxlength="60" />
             <button type="submit" class="btn btn-ghost btn-sm">Ajouter</button>
           </form>
         </div>
 
-        <!-- Chrono & Notes -->
         <div class="card">
           <div class="card-head">
-            <span class="card-tag">Session &amp; Notes</span>
-            <span class="kpi-meta" id="timer-status">Prêt</span>
+            <span class="card-tag">Bloc rapide &amp; Note</span>
+            <span class="muted-sm" id="quick-timer-state">Prêt</span>
           </div>
-
-          <div class="timer-box">
-            <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
-              <div class="timer-display" id="timer-display">25:00</div>
+          <div class="timer-panel">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+              <div class="timer-clock" id="clock-display">25:00</div>
               <div style="display: flex; gap: 6px;">
-                <button type="button" class="btn btn-primary btn-sm" id="timer-toggle">Démarrer</button>
-                <button type="button" class="btn btn-ghost btn-sm" id="timer-reset">Reset</button>
+                <button type="button" class="btn btn-primary btn-sm" id="clock-start">Start</button>
+                <button type="button" class="btn btn-ghost btn-sm" id="clock-log">Valider bloc</button>
+                <button type="button" class="btn btn-ghost btn-sm" id="clock-reset">Reset</button>
               </div>
             </div>
-            <div class="timer-presets">
-              <button type="button" class="btn btn-ghost btn-sm" data-mins="15">15 min</button>
-              <button type="button" class="btn btn-ghost btn-sm" data-mins="25">25 min</button>
-              <button type="button" class="btn btn-ghost btn-sm" data-mins="45">45 min</button>
+            <div class="preset-row">
+              <button type="button" class="btn btn-ghost btn-sm" data-preset="15">15 min</button>
+              <button type="button" class="btn btn-ghost btn-sm" data-preset="25">25 min</button>
+              <button type="button" class="btn btn-ghost btn-sm" data-preset="45">45 min</button>
+              <button type="button" class="btn btn-ghost btn-sm" data-preset="60">60 min</button>
             </div>
           </div>
 
-          <textarea class="area" id="notes-area" placeholder="Notes de session, points clés, suite à donner..."></textarea>
+          <textarea class="area" id="quick-note" placeholder="Note rapide, priorité actuelle, idée à garder..."></textarea>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button type="button" class="btn btn-ghost btn-sm" id="copy-notes-btn">Copier notes</button>
-            <button type="button" class="btn btn-ghost btn-sm" id="send-to-plan-btn">Envoyer vers Atelier</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="save-journal-from-quick">Archiver au journal</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="copy-quick-note">Copier</button>
           </div>
-          <div class="toast" id="cockpit-toast"></div>
+          <div class="feedback" id="cockpit-feedback"></div>
         </div>
       </div>
 
-      <div class="lock-banner" id="lock-banner">
+      <div class="credit-alert" id="credit-alert">
         <span><strong>Limite de 5 crédits gratuits atteinte.</strong> Passe sur une formule pour continuer à ajouter des objectifs ou générer des plans.</span>
-        <button type="button" class="btn btn-primary btn-sm" data-jump="forfaits">Voir les forfaits</button>
+        <button type="button" class="btn btn-primary btn-sm" data-tab-jump="forfaits">Voir les forfaits</button>
       </div>
     </section>
 
-    <!-- ATELIER PLAN -->
+    <!-- 2. CHRONO & JOURNAL -->
+    <section class="view" id="view-sessions">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head">
+            <span class="card-tag">Nouvelle entrée de journal</span>
+            <span class="muted-sm">Sauvegarde locale</span>
+          </div>
+          <input type="text" class="field" id="journal-title" placeholder="Titre de la session ou du bilan..." maxlength="70" />
+          <select class="field" id="journal-tag">
+            <option value="Exécution">Exécution</option>
+            <option value="Bilan">Bilan</option>
+            <option value="Blocage">Blocage</option>
+            <option value="Décision">Décision</option>
+          </select>
+          <textarea class="area" id="journal-body" placeholder="Ce qui a été accompli, ce qui a freiné, prochaine étape..."></textarea>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" class="btn btn-primary btn-sm" id="add-journal-btn">Enregistrer l'entrée</button>
+          </div>
+          <div class="feedback" id="journal-feedback"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <span class="card-tag">Historique</span>
+            <select class="field" id="journal-filter" style="width: auto; padding: 5px 9px; font-size: 0.78rem;">
+              <option value="ALL">Tout</option>
+              <option value="Session">Sessions chrono</option>
+              <option value="Exécution">Exécution</option>
+              <option value="Bilan">Bilan</option>
+              <option value="Blocage">Blocage</option>
+              <option value="Décision">Décision</option>
+            </select>
+          </div>
+          <div class="log-list" id="journal-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. ATELIER PLAN -->
     <section class="view" id="view-atelier">
       <div class="grid-2">
         <div class="card">
           <div class="card-head">
-            <span class="card-tag">Structuration de session</span>
-            <span class="kpi-meta">Coût : 1 crédit</span>
+            <span class="card-tag">Générateur de séquence</span>
+            <span class="muted-sm">1 crédit</span>
           </div>
-          <p style="color: var(--muted); font-size: 0.85rem;">
-            Décris ce que tu veux accomplir ou ce qui te freine : l'atelier organise ta séquence d'action en étapes claires.
+          <p class="muted-sm">
+            Indique ton objectif principal et tes contraintes : l'atelier découpe l'exécution en étapes et te permet de les envoyer en routines.
           </p>
-          <input type="text" class="field" id="plan-focus" placeholder="Priorité principale (ex. Finir le montage, boucler la semaine...)" maxlength="80" />
-          <textarea class="area" id="plan-context" placeholder="Contexte, contraintes ou tâches à organiser..."></textarea>
+          <input type="text" class="field" id="atelier-goal" placeholder="Objectif ou livrable visé..." maxlength="80" />
+          <input type="number" class="field" id="atelier-blocks" value="3" min="1" max="8" />
+          <textarea class="area" id="atelier-notes" placeholder="Contraintes, étapes clés, points d'attention..."></textarea>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button type="button" class="btn btn-primary btn-sm" id="build-plan-btn">Structurer le plan (-1 cr.)</button>
-            <button type="button" class="btn btn-ghost btn-sm" id="copy-plan-btn">Copier le plan</button>
+            <button type="button" class="btn btn-primary btn-sm" id="generate-steps-btn">Générer la séquence (-1 cr.)</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="copy-steps-btn">Copier tout</button>
           </div>
-          <div class="toast" id="atelier-toast"></div>
+          <div class="feedback" id="atelier-feedback"></div>
         </div>
 
         <div class="card">
           <div class="card-head">
-            <span class="card-tag">Panneau d'exécution</span>
-            <span class="kpi-meta" id="plan-badge">En attente</span>
+            <span class="card-tag">Étapes générées</span>
+            <span class="muted-sm" id="steps-count">0 étape</span>
           </div>
-          <div class="structured-plan" id="plan-panel"></div>
-          <div id="plan-empty" style="color: var(--muted); font-size: 0.85rem;">
-            Aucun plan généré pour le moment. Saisis une priorité à gauche pour afficher ta séquence d'exécution.
+          <div class="plan-steps" id="steps-list"></div>
+          <div id="steps-placeholder" class="muted-sm">
+            Aucune séquence générée pour l'instant.
           </div>
         </div>
       </div>
     </section>
 
-    <!-- PROTOCOLES -->
+    <!-- 4. PROTOCOLES -->
     <section class="view" id="view-protocoles">
       <div class="grid-2">
         <div class="card">
-          <div class="card-tag">Cadre 01</div>
-          <strong>Séquence d'ouverture</strong>
-          <p style="color: var(--muted); font-size: 0.85rem;">
-            Bloque une priorité unique en début de session, coupe les notifications parasites et lance un bloc de 25 ou 45 minutes.
+          <div class="card-tag">Protocole 01 • Ouverture</div>
+          <strong>Verrouillage de priorité</strong>
+          <p class="muted-sm">
+            Choisis un seul objectif prioritaire avant de consulter les messages ou réseaux, puis lance un bloc chronométré.
           </p>
           <div>
-            <button type="button" class="btn btn-ghost btn-sm add-preset-routine" data-routine="Verrouiller la priorité #1 en début de session">
+            <button type="button" class="btn btn-ghost btn-sm inject-routine" data-text="Verrouiller la priorité #1 avant toute distraction">
               Ajouter aux routines
             </button>
           </div>
         </div>
 
         <div class="card">
-          <div class="card-tag">Cadre 02</div>
-          <strong>Exécution sans friction</strong>
-          <p style="color: var(--muted); font-size: 0.85rem;">
-            Avance sur un seul livrable à la fois et mets à jour ton compteur dès qu'une unité concrète est validée.
+          <div class="card-tag">Protocole 02 • Focus</div>
+          <strong>Bloc d'exécution pur</strong>
+          <p class="muted-sm">
+            Travaille sur une seule tâche jusqu'à la fin du minuteur et incrémente ton objectif dès qu'une unité est validée.
           </p>
           <div>
-            <button type="button" class="btn btn-ghost btn-sm add-preset-routine" data-routine="Exécuter un bloc ciblé sans changer de tâche">
+            <button type="button" class="btn btn-ghost btn-sm inject-routine" data-text="Réaliser un bloc d'exécution focalisée complet">
               Ajouter aux routines
             </button>
           </div>
         </div>
 
         <div class="card">
-          <div class="card-tag">Cadre 03</div>
-          <strong>Point de contrôle</strong>
-          <p style="color: var(--muted); font-size: 0.85rem;">
-            Évalue l'écart entre ton rythme actuel et ta cible de la journée, puis allège les tâches secondaires si nécessaire.
+          <div class="card-tag">Protocole 03 • Contrôle</div>
+          <strong>Revue de trajectoire</strong>
+          <p class="muted-sm">
+            Compare ton avancement réel à tes cibles de la journée et coupe les tâches secondaires qui n'apportent rien.
           </p>
           <div>
-            <button type="button" class="btn btn-ghost btn-sm add-preset-routine" data-routine="Faire un point d'avancement à mi-parcours">
+            <button type="button" class="btn btn-ghost btn-sm inject-routine" data-text="Faire une revue de trajectoire à mi-parcours">
               Ajouter aux routines
             </button>
           </div>
         </div>
 
         <div class="card">
-          <div class="card-tag">Cadre 04</div>
-          <strong>Clôture propre</strong>
-          <p style="color: var(--muted); font-size: 0.85rem;">
-            Note ce qui a avancé, coche les routines terminées et fixe la première action de la prochaine session.
+          <div class="card-tag">Protocole 04 • Clôture</div>
+          <strong>Débrief &amp; préparation J+1</strong>
+          <p class="muted-sm">
+            Archive un court bilan dans ton journal, coche tes routines et note la première action du lendemain.
           </p>
           <div>
-            <button type="button" class="btn btn-ghost btn-sm add-preset-routine" data-routine="Clôturer avec un bilan rapide et la prochaine étape">
+            <button type="button" class="btn btn-ghost btn-sm inject-routine" data-text="Archiver le bilan du soir et préparer J+1">
               Ajouter aux routines
             </button>
           </div>
@@ -424,57 +481,63 @@
       </div>
     </section>
 
-    <!-- PROJECTION -->
+    <!-- 5. PROJECTION -->
     <section class="view" id="view-projection">
       <div class="grid-2">
         <div class="card">
-          <div class="card-tag">Simulateur</div>
-          <label style="font-size: 0.84rem; color: var(--muted); display: flex; flex-direction: column; gap: 6px;">
-            Volume mensuel (sessions / visites)
-            <input type="number" class="field" id="sim-vol" value="1000" min="0" step="100" />
+          <div class="card-tag">Paramètres de simulation</div>
+          <label class="muted-sm" style="display: flex; flex-direction: column; gap: 6px;">
+            Visiteurs / sessions mensuels
+            <input type="number" class="field" id="p-vol" value="1500" min="0" step="100" />
           </label>
-          <label style="font-size: 0.84rem; color: var(--muted); display: flex; flex-direction: column; gap: 6px;">
+          <label class="muted-sm" style="display: flex; flex-direction: column; gap: 6px;">
             Taux de conversion (%)
-            <input type="number" class="field" id="sim-rate" value="2" min="0" max="100" step="0.5" />
+            <input type="number" class="field" id="p-rate" value="2.5" min="0" max="100" step="0.5" />
           </label>
-          <label style="font-size: 0.84rem; color: var(--muted); display: flex; flex-direction: column; gap: 6px;">
-            Panier / valeur (€)
-            <input type="number" class="field" id="sim-price" value="79" min="1" step="1" />
+          <label class="muted-sm" style="display: flex; flex-direction: column; gap: 6px;">
+            Offre moyenne (€)
+            <input type="number" class="field" id="p-price" value="99" min="1" step="1" />
           </label>
         </div>
 
         <div class="card">
-          <div class="card-tag">Projection estimée</div>
-          <div class="kpi-card">
+          <div class="card-tag">Résultats estimés</div>
+          <div class="kpi-item">
             <div class="kpi-top" style="margin-bottom: 0;">
-              <span>Conversions estimées / mois</span>
-              <strong id="sim-orders">20</strong>
+              <span>Clients estimés / mois</span>
+              <strong id="p-clients">38</strong>
             </div>
           </div>
-          <div class="kpi-card">
+          <div class="kpi-item">
             <div class="kpi-top" style="margin-bottom: 0;">
-              <span>Revenu projeté / mois</span>
-              <strong id="sim-total">1 580 €</strong>
+              <span>Revenu brut estimé / mois</span>
+              <strong id="p-rev">3 762 €</strong>
+            </div>
+          </div>
+          <div class="kpi-item">
+            <div class="kpi-top" style="margin-bottom: 0;">
+              <span>Projection sur 12 mois</span>
+              <strong id="p-year">45 144 €</strong>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- FORFAITS -->
+    <!-- 6. FORFAITS -->
     <section class="view" id="view-forfaits">
       <div class="grid-2">
         <div class="card">
           <div>
             <div class="card-tag">Essentiel</div>
-            <div class="price">29 € <span>/ mois</span></div>
-            <p style="color: var(--muted); font-size: 0.86rem;">
-              Pour garder une cadence régulière au quotidien avec un suivi clair et structuré.
+            <div class="price">39 € <span>/ mois</span></div>
+            <p class="muted-sm">
+              Accès mensuel complet au cockpit, au chrono avec journal et aux protocoles d'exécution.
             </p>
             <ul class="features">
-              <li>Cockpit avec suivi d'objectifs et routines</li>
-              <li>Chrono de session &amp; atelier de planification</li>
-              <li>Abonnement mensuel géré via Stripe</li>
+              <li>Cockpit avec score global &amp; objectifs</li>
+              <li>Chronomètre de blocs &amp; historique journal</li>
+              <li>Atelier de planification &amp; protocoles</li>
             </ul>
           </div>
           <a
@@ -483,20 +546,20 @@
             rel="noopener noreferrer"
             class="btn btn-ghost"
           >
-            Choisir Essentiel — 29 € / mois
+            Choisir Essentiel — 39 € / mois
           </a>
         </div>
 
         <div class="card featured">
           <div>
             <div class="card-tag">Système Complet</div>
-            <div class="price">79 € <span>/ paiement unique</span></div>
-            <p style="color: var(--muted); font-size: 0.86rem;">
-              Accès complet à l'ensemble des modules, protocoles et outils de projection sans abonnement récurrent.
+            <div class="price">99 € <span>/ paiement unique</span></div>
+            <p class="muted-sm">
+              L'ensemble de la suite KADENCE, des outils de projection et de planification en un seul règlement.
             </p>
             <ul class="features">
               <li>Tout le contenu de la formule Essentiel</li>
-              <li>Protocoles complets &amp; simulateur de projection</li>
+              <li>Simulateur de projection mensuel &amp; annuel</li>
               <li>Paiement unique sécurisé via Stripe</li>
             </ul>
           </div>
@@ -506,7 +569,7 @@
             rel="noopener noreferrer"
             class="btn btn-primary"
           >
-            Choisir Système Complet — 79 €
+            Choisir Système Complet — 99 €
           </a>
         </div>
       </div>
@@ -514,91 +577,98 @@
   </div>
 
   <script>
-    const STATE_KEY = "kadence_client_app_v1";
-    const CREDITS_KEY = "kadence_free_credits_v1";
-    const MAX_CREDITS = 5;
+    const DB_KEY = "kadence_full_suite_v1";
+    const CRED_KEY = "kadence_free_credits_v1";
+    const FREE_LIMIT = 5;
 
-    const defaultState = {
+    const defaultDb = {
       kpis: [
-        { label: "Blocs d'exécution", current: 1, target: 3 },
-        { label: "Livrables bouclés", current: 0, target: 2 }
+        { label: "Blocs d'exécution focalisée", current: 2, target: 4 },
+        { label: "Livrables validés", current: 1, target: 3 }
       ],
       routines: [
-        { label: "Définir la priorité #1 de la session", done: false },
-        { label: "Faire un bloc de 25 min sans distraction", done: false }
+        { label: "Définir la priorité #1 avant toute distraction", done: false },
+        { label: "Valider un bloc chronométré complet", done: false },
+        { label: "Noter le bilan de session", done: false }
       ],
-      notes: "",
-      planFocus: "",
-      planContext: "",
-      planSteps: []
+      quickNote: "",
+      focusMinutesTotal: 0,
+      journal: [],
+      atelierGoal: "",
+      atelierBlocks: 3,
+      atelierNotes: "",
+      steps: []
     };
 
-    function getCredits() {
+    function readCredits() {
       try {
-        const raw = localStorage.getItem(CREDITS_KEY);
+        const raw = localStorage.getItem(CRED_KEY);
         if (raw === null) {
-          localStorage.setItem(CREDITS_KEY, String(MAX_CREDITS));
-          return MAX_CREDITS;
+          localStorage.setItem(CRED_KEY, String(FREE_LIMIT));
+          return FREE_LIMIT;
         }
         return Math.max(0, Number(raw) || 0);
       } catch {
-        return MAX_CREDITS;
+        return FREE_LIMIT;
       }
     }
 
-    function consumeCredit() {
-      const cur = getCredits();
-      if (cur <= 0) {
+    function spendCredit() {
+      const c = readCredits();
+      if (c <= 0) {
         renderCredits();
         return false;
       }
       try {
-        localStorage.setItem(CREDITS_KEY, String(cur - 1));
+        localStorage.setItem(CRED_KEY, String(c - 1));
       } catch {}
       renderCredits();
       return true;
     }
 
     function renderCredits() {
-      const c = getCredits();
-      document.getElementById("credits-ui").textContent = `${c} / ${MAX_CREDITS}`;
-      const banner = document.getElementById("lock-banner");
-      if (c <= 0) banner.classList.add("visible");
-      else banner.classList.remove("visible");
+      const c = readCredits();
+      document.getElementById("top-credits").textContent = `${c} / ${FREE_LIMIT}`;
+      const alertEl = document.getElementById("credit-alert");
+      if (c <= 0) alertEl.classList.add("visible");
+      else alertEl.classList.remove("visible");
     }
 
-    function loadState() {
+    function loadDb() {
       try {
-        const raw = localStorage.getItem(STATE_KEY);
-        if (!raw) return structuredClone(defaultState);
+        const raw = localStorage.getItem(DB_KEY);
+        if (!raw) return structuredClone(defaultDb);
         const p = JSON.parse(raw);
         return {
-          kpis: Array.isArray(p.kpis) ? p.kpis : structuredClone(defaultState.kpis),
-          routines: Array.isArray(p.routines) ? p.routines : structuredClone(defaultState.routines),
-          notes: typeof p.notes === "string" ? p.notes : "",
-          planFocus: typeof p.planFocus === "string" ? p.planFocus : "",
-          planContext: typeof p.planContext === "string" ? p.planContext : "",
-          planSteps: Array.isArray(p.planSteps) ? p.planSteps : []
+          kpis: Array.isArray(p.kpis) ? p.kpis : structuredClone(defaultDb.kpis),
+          routines: Array.isArray(p.routines) ? p.routines : structuredClone(defaultDb.routines),
+          quickNote: typeof p.quickNote === "string" ? p.quickNote : "",
+          focusMinutesTotal: Number(p.focusMinutesTotal) || 0,
+          journal: Array.isArray(p.journal) ? p.journal : [],
+          atelierGoal: typeof p.atelierGoal === "string" ? p.atelierGoal : "",
+          atelierBlocks: Number(p.atelierBlocks) || 3,
+          atelierNotes: typeof p.atelierNotes === "string" ? p.atelierNotes : "",
+          steps: Array.isArray(p.steps) ? p.steps : []
         };
       } catch {
-        return structuredClone(defaultState);
+        return structuredClone(defaultDb);
       }
     }
 
-    let state = loadState();
+    let db = loadDb();
 
-    function saveState() {
+    function saveDb() {
       try {
-        localStorage.setItem(STATE_KEY, JSON.stringify(state));
+        localStorage.setItem(DB_KEY, JSON.stringify(db));
       } catch {}
     }
 
-    function flash(id, text) {
+    function showMsg(id, msg) {
       const el = document.getElementById(id);
       if (!el) return;
-      el.textContent = text;
-      clearTimeout(el._t);
-      el._t = setTimeout(() => { el.textContent = ""; }, 1600);
+      el.textContent = msg;
+      clearTimeout(el._timer);
+      el._timer = setTimeout(() => { el.textContent = ""; }, 1700);
     }
 
     function esc(s) {
@@ -607,326 +677,431 @@
       }[m]));
     }
 
-    function openTab(tabName) {
+    function goTab(name) {
       document.querySelectorAll(".tab-btn").forEach((b) => {
-        b.classList.toggle("active", b.dataset.tab === tabName);
+        b.classList.toggle("active", b.dataset.tab === name);
       });
       document.querySelectorAll(".view").forEach((v) => {
-        v.classList.toggle("active", v.id === `view-${tabName}`);
+        v.classList.toggle("active", v.id === `view-${name}`);
       });
     }
 
-    function render() {
+    function renderAll() {
+      // KPIs
       const kpiList = document.getElementById("kpi-list");
       kpiList.innerHTML = "";
       let kpiRatio = 0;
 
-      state.kpis.forEach((k, idx) => {
+      db.kpis.forEach((k, idx) => {
         const pct = Math.min(100, Math.round((k.current / Math.max(1, k.target)) * 100));
         kpiRatio += Math.min(1, k.current / Math.max(1, k.target));
-        const el = document.createElement("div");
-        el.className = "kpi-card";
-        el.innerHTML = `
+        const row = document.createElement("div");
+        row.className = "kpi-item";
+        row.innerHTML = `
           <div class="kpi-top">
             <span>${esc(k.label)}</span>
-            <span class="kpi-meta">${k.current} / ${k.target}</span>
+            <span class="muted-sm">${k.current} / ${k.target}</span>
           </div>
           <div class="bar"><div class="bar-fill" style="width: ${pct}%;"></div></div>
           <div class="kpi-btns">
-            <button type="button" class="btn btn-ghost btn-sm" data-kact="dec" data-idx="${idx}">-1</button>
-            <button type="button" class="btn btn-ghost btn-sm" data-kact="inc" data-idx="${idx}">+1</button>
-            <button type="button" class="btn btn-ghost btn-sm" data-kact="edit" data-idx="${idx}">Modifier</button>
-            <button type="button" class="btn btn-ghost btn-sm" data-kact="del" data-idx="${idx}">Suppr</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-k="dec" data-i="${idx}">-1</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-k="inc" data-i="${idx}">+1</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-k="edit" data-i="${idx}">Modifier</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-k="del" data-i="${idx}">Suppr</button>
           </div>
         `;
-        kpiList.appendChild(el);
+        kpiList.appendChild(row);
       });
 
+      // Routines
       const rList = document.getElementById("routine-list");
       rList.innerHTML = "";
-      let doneCount = 0;
-
-      state.routines.forEach((r, idx) => {
-        if (r.done) doneCount++;
-        const row = document.createElement("div");
-        row.className = `routine-card ${r.done ? "done" : ""}`;
-        row.innerHTML = `
+      let doneR = 0;
+      db.routines.forEach((r, idx) => {
+        if (r.done) doneR++;
+        const el = document.createElement("div");
+        el.className = `routine-row ${r.done ? "done" : ""}`;
+        el.innerHTML = `
           <label class="routine-label">
-            <input type="checkbox" data-ridx="${idx}" ${r.done ? "checked" : ""} />
+            <input type="checkbox" data-r-check="${idx}" ${r.done ? "checked" : ""} />
             <span>${esc(r.label)}</span>
           </label>
-          <button type="button" class="btn btn-ghost btn-sm" data-rdel="${idx}">×</button>
+          <button type="button" class="btn btn-ghost btn-sm" data-r-del="${idx}">×</button>
         `;
-        rList.appendChild(row);
+        rList.appendChild(el);
       });
 
-      const kAvg = state.kpis.length ? kpiRatio / state.kpis.length : 0;
-      const rAvg = state.routines.length ? doneCount / state.routines.length : 0;
+      // Scores & stats
+      const kAvg = db.kpis.length ? kpiRatio / db.kpis.length : 0;
+      const rAvg = db.routines.length ? doneR / db.routines.length : 0;
       const score = Math.round(((kAvg + rAvg) / 2) * 100);
 
-      document.getElementById("score-ui").textContent = `${score}%`;
-      document.getElementById("progress-label").textContent = `${score}%`;
-      document.getElementById("progress-fill").style.width = `${score}%`;
-      document.getElementById("summary-label").textContent =
-        `${state.kpis.length} objectif(s) • ${doneCount}/${state.routines.length} routine(s)`;
-      document.getElementById("kpi-count-label").textContent = `${state.kpis.length}`;
-      document.getElementById("routine-count-label").textContent = `${doneCount}/${state.routines.length}`;
+      document.getElementById("top-score").textContent = `${score}%`;
+      document.getElementById("stat-score").textContent = `${score}%`;
+      document.getElementById("stat-focus-mins").textContent = `${db.focusMinutesTotal} min`;
+      const sessionEntries = db.journal.filter((j) => j.tag === "Session").length;
+      document.getElementById("stat-sessions-count").textContent = `${sessionEntries} bloc(s) validé(s)`;
+      document.getElementById("stat-routines").textContent = `${doneR} / ${db.routines.length}`;
+      document.getElementById("stat-journal").textContent = `${db.journal.length}`;
+      document.getElementById("kpi-badge").textContent = `${db.kpis.length}`;
+      document.getElementById("routine-badge").textContent = `${doneR}/${db.routines.length}`;
 
-      const notesArea = document.getElementById("notes-area");
-      if (notesArea.value !== state.notes) notesArea.value = state.notes;
+      const quickNoteEl = document.getElementById("quick-note");
+      if (quickNoteEl.value !== db.quickNote) quickNoteEl.value = db.quickNote;
 
-      const focusInput = document.getElementById("plan-focus");
-      if (focusInput.value !== state.planFocus) focusInput.value = state.planFocus;
+      // Journal
+      renderJournal();
 
-      const ctxArea = document.getElementById("plan-context");
-      if (ctxArea.value !== state.planContext) ctxArea.value = state.planContext;
+      // Atelier
+      const goalEl = document.getElementById("atelier-goal");
+      if (goalEl.value !== db.atelierGoal) goalEl.value = db.atelierGoal;
+      const blocksEl = document.getElementById("atelier-blocks");
+      if (Number(blocksEl.value) !== db.atelierBlocks) blocksEl.value = db.atelierBlocks;
+      const notesEl = document.getElementById("atelier-notes");
+      if (notesEl.value !== db.atelierNotes) notesEl.value = db.atelierNotes;
 
-      const planPanel = document.getElementById("plan-panel");
-      const planEmpty = document.getElementById("plan-empty");
-      const planBadge = document.getElementById("plan-badge");
-
-      if (state.planSteps.length > 0) {
-        planPanel.innerHTML = state.planSteps
-          .map((s) => `<div class="plan-step">${esc(s)}</div>`)
-          .join("");
-        planPanel.classList.add("visible");
-        planEmpty.style.display = "none";
-        planBadge.textContent = "Actif";
-      } else {
-        planPanel.innerHTML = "";
-        planPanel.classList.remove("visible");
-        planEmpty.style.display = "block";
-        planBadge.textContent = "En attente";
-      }
+      renderSteps();
     }
 
-    // Tabs
+    function renderJournal() {
+      const filter = document.getElementById("journal-filter").value;
+      const list = document.getElementById("journal-list");
+      const items = db.journal.filter((entry) => filter === "ALL" || entry.tag === filter);
+
+      if (!items.length) {
+        list.innerHTML = `<div class="muted-sm">Aucune entrée dans cette catégorie.</div>`;
+        return;
+      }
+
+      list.innerHTML = items
+        .map((entry) => `
+          <div class="log-entry">
+            <div class="log-meta">
+              <strong>${esc(entry.tag)}</strong>
+              <span>${esc(entry.date)}</span>
+            </div>
+            <div style="font-weight: 600;">${esc(entry.title)}</div>
+            <div class="muted-sm">${esc(entry.body)}</div>
+          </div>
+        `)
+        .join("");
+    }
+
+    function renderSteps() {
+      const list = document.getElementById("steps-list");
+      const placeholder = document.getElementById("steps-placeholder");
+      const count = document.getElementById("steps-count");
+      count.textContent = `${db.steps.length} étape(s)`;
+
+      if (!db.steps.length) {
+        list.innerHTML = "";
+        placeholder.style.display = "block";
+        return;
+      }
+
+      placeholder.style.display = "none";
+      list.innerHTML = db.steps
+        .map((st, i) => `
+          <div class="step-card">
+            <span>${esc(st)}</span>
+            <button type="button" class="btn btn-ghost btn-sm" data-step-routine="${i}">+ Routine</button>
+          </div>
+        `)
+        .join("");
+    }
+
+    // Navigation
     document.querySelectorAll(".tab-btn").forEach((btn) => {
-      btn.addEventListener("click", () => openTab(btn.dataset.tab));
+      btn.addEventListener("click", () => goTab(btn.dataset.tab));
     });
-    document.querySelectorAll("[data-jump]").forEach((btn) => {
-      btn.addEventListener("click", () => openTab(btn.dataset.jump));
+    document.querySelectorAll("[data-tab-jump]").forEach((btn) => {
+      btn.addEventListener("click", () => goTab(btn.dataset.tabJump));
     });
 
-    // KPI actions
+    // KPIs
     document.getElementById("kpi-form").addEventListener("submit", (e) => {
       e.preventDefault();
-      const nameEl = document.getElementById("kpi-name");
-      const targetEl = document.getElementById("kpi-target");
-      const label = nameEl.value.trim();
+      const titleEl = document.getElementById("kpi-title");
+      const goalEl = document.getElementById("kpi-goal");
+      const label = titleEl.value.trim();
       if (!label) return;
-      if (!consumeCredit()) return;
-      state.kpis.push({
+      if (!spendCredit()) return;
+      db.kpis.push({
         label,
         current: 0,
-        target: Math.max(1, Math.min(50, Number(targetEl.value) || 3))
+        target: Math.max(1, Math.min(50, Number(goalEl.value) || 3))
       });
-      nameEl.value = "";
-      saveState();
-      render();
-      flash("cockpit-toast", "Objectif ajouté");
+      titleEl.value = "";
+      saveDb();
+      renderAll();
+      showMsg("cockpit-feedback", "Objectif ajouté");
     });
 
     document.getElementById("kpi-list").addEventListener("click", (e) => {
-      const btn = e.target.closest("button[data-kact]");
+      const btn = e.target.closest("button[data-k]");
       if (!btn) return;
-      const idx = Number(btn.dataset.idx);
-      const item = state.kpis[idx];
+      const idx = Number(btn.dataset.i);
+      const item = db.kpis[idx];
       if (!item) return;
-      const act = btn.dataset.kact;
+      const act = btn.dataset.k;
       if (act === "inc") item.current = Math.min(item.target * 2, item.current + 1);
       if (act === "dec") item.current = Math.max(0, item.current - 1);
       if (act === "edit") {
-        const nextLabel = prompt("Nom de l'objectif :", item.label);
-        if (nextLabel && nextLabel.trim()) item.label = nextLabel.trim().slice(0, 48);
-        const nextTarget = Number(prompt("Cible :", String(item.target)));
-        if (nextTarget >= 1 && nextTarget <= 50) item.target = Math.round(nextTarget);
+        const nl = prompt("Nom de l'objectif :", item.label);
+        if (nl && nl.trim()) item.label = nl.trim().slice(0, 48);
+        const ng = Number(prompt("Cible :", String(item.target)));
+        if (ng >= 1 && ng <= 50) item.target = Math.round(ng);
       }
-      if (act === "del") state.kpis.splice(idx, 1);
-      saveState();
-      render();
+      if (act === "del") db.kpis.splice(idx, 1);
+      saveDb();
+      renderAll();
     });
 
     // Routines
     document.getElementById("routine-form").addEventListener("submit", (e) => {
       e.preventDefault();
-      const inp = document.getElementById("routine-name");
+      const inp = document.getElementById("routine-title");
       const label = inp.value.trim();
       if (!label) return;
-      state.routines.push({ label, done: false });
+      db.routines.push({ label, done: false });
       inp.value = "";
-      saveState();
-      render();
-      flash("cockpit-toast", "Routine ajoutée");
+      saveDb();
+      renderAll();
+      showMsg("cockpit-feedback", "Routine ajoutée");
     });
 
     document.getElementById("routine-list").addEventListener("change", (e) => {
-      const cb = e.target.closest("input[type='checkbox'][data-ridx]");
+      const cb = e.target.closest("input[type='checkbox'][data-r-check]");
       if (!cb) return;
-      const idx = Number(cb.dataset.ridx);
-      if (state.routines[idx]) {
-        state.routines[idx].done = cb.checked;
-        saveState();
-        render();
+      const idx = Number(cb.dataset.rCheck);
+      if (db.routines[idx]) {
+        db.routines[idx].done = cb.checked;
+        saveDb();
+        renderAll();
       }
     });
 
     document.getElementById("routine-list").addEventListener("click", (e) => {
-      const btn = e.target.closest("button[data-rdel]");
+      const btn = e.target.closest("button[data-r-del]");
       if (!btn) return;
-      state.routines.splice(Number(btn.dataset.rdel), 1);
-      saveState();
-      render();
+      db.routines.splice(Number(btn.dataset.rDel), 1);
+      saveDb();
+      renderAll();
     });
 
-    document.querySelectorAll(".add-preset-routine").forEach((btn) => {
+    document.querySelectorAll(".inject-routine").forEach((btn) => {
       btn.addEventListener("click", () => {
-        const label = btn.dataset.routine;
-        if (!label) return;
-        state.routines.push({ label, done: false });
-        saveState();
-        render();
-        openTab("cockpit");
-        flash("cockpit-toast", "Routine ajoutée depuis le protocole");
+        const text = btn.dataset.text;
+        if (!text) return;
+        db.routines.push({ label: text, done: false });
+        saveDb();
+        renderAll();
+        goTab("cockpit");
+        showMsg("cockpit-feedback", "Protocole ajouté aux routines");
       });
     });
 
-    // Notes
-    document.getElementById("notes-area").addEventListener("input", (e) => {
-      state.notes = e.target.value;
-      saveState();
+    // Quick note & Journal
+    document.getElementById("quick-note").addEventListener("input", (e) => {
+      db.quickNote = e.target.value;
+      saveDb();
     });
 
-    document.getElementById("copy-notes-btn").addEventListener("click", async () => {
-      const txt = state.notes.trim();
+    document.getElementById("copy-quick-note").addEventListener("click", async () => {
+      const txt = db.quickNote.trim();
       if (!txt) return;
       try {
         await navigator.clipboard.writeText(txt);
-        flash("cockpit-toast", "Notes copiées");
+        showMsg("cockpit-feedback", "Note copiée");
       } catch {}
     });
 
-    document.getElementById("send-to-plan-btn").addEventListener("click", () => {
-      state.planContext = state.notes;
-      saveState();
-      render();
-      openTab("atelier");
+    document.getElementById("save-journal-from-quick").addEventListener("click", () => {
+      const txt = db.quickNote.trim();
+      if (!txt) return;
+      db.journal.unshift({
+        tag: "Bilan",
+        title: "Note rapide archivée",
+        body: txt,
+        date: new Date().toLocaleString("fr-FR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })
+      });
+      saveDb();
+      renderAll();
+      showMsg("cockpit-feedback", "Archivé dans le journal");
     });
 
-    // Atelier plan
-    document.getElementById("plan-focus").addEventListener("input", (e) => {
-      state.planFocus = e.target.value;
-      saveState();
+    document.getElementById("add-journal-btn").addEventListener("click", () => {
+      const title = document.getElementById("journal-title").value.trim() || "Entrée de journal";
+      const tag = document.getElementById("journal-tag").value;
+      const body = document.getElementById("journal-body").value.trim();
+      if (!body) return;
+      db.journal.unshift({
+        tag,
+        title,
+        body,
+        date: new Date().toLocaleString("fr-FR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })
+      });
+      document.getElementById("journal-title").value = "";
+      document.getElementById("journal-body").value = "";
+      saveDb();
+      renderAll();
+      showMsg("journal-feedback", "Entrée enregistrée");
     });
 
-    document.getElementById("plan-context").addEventListener("input", (e) => {
-      state.planContext = e.target.value;
-      saveState();
-    });
-
-    document.getElementById("build-plan-btn").addEventListener("click", () => {
-      if (!consumeCredit()) return;
-      const focus = state.planFocus.trim() || "Exécuter la priorité principale";
-      const ctx = state.planContext.trim();
-      const pending = state.kpis
-        .filter((k) => k.current < k.target)
-        .map((k) => `${k.label} (${k.target - k.current} restant)`);
-
-      state.planSteps = [
-        `01 • Cible prioritaire : ${focus}`,
-        `02 • Bloc d'exécution : 25 min focalisées sur la première étape concrète`,
-        `03 • Suivi des objectifs : ${pending.length ? pending.join(", ") : "Cibles à jour"}`,
-        `04 • Contexte retenu : ${ctx || "Aucune contrainte particulière saisie"}`
-      ];
-      saveState();
-      render();
-      flash("atelier-toast", "Plan structuré");
-    });
-
-    document.getElementById("copy-plan-btn").addEventListener("click", async () => {
-      if (!state.planSteps.length) return;
-      try {
-        await navigator.clipboard.writeText(state.planSteps.join("\n"));
-        flash("atelier-toast", "Plan copié");
-      } catch {}
-    });
+    document.getElementById("journal-filter").addEventListener("change", renderJournal);
 
     // Timer
-    let remainingSec = 25 * 60;
-    let timerId = null;
+    let presetMins = 25;
+    let secLeft = presetMins * 60;
+    let ticker = null;
 
-    function renderTimer() {
-      const m = String(Math.floor(remainingSec / 60)).padStart(2, "0");
-      const s = String(remainingSec % 60).padStart(2, "0");
-      document.getElementById("timer-display").textContent = `${m}:${s}`;
-      document.getElementById("timer-toggle").textContent = timerId ? "Pause" : "Démarrer";
-      document.getElementById("timer-status").textContent = timerId ? "En cours" : "Prêt";
+    function drawClock() {
+      const m = String(Math.floor(secLeft / 60)).padStart(2, "0");
+      const s = String(secLeft % 60).padStart(2, "0");
+      document.getElementById("clock-display").textContent = `${m}:${s}`;
+      document.getElementById("clock-start").textContent = ticker ? "Pause" : "Start";
+      document.getElementById("quick-timer-state").textContent = ticker ? "En cours" : "Prêt";
     }
 
-    document.getElementById("timer-toggle").addEventListener("click", () => {
-      if (timerId) {
-        clearInterval(timerId);
-        timerId = null;
+    document.getElementById("clock-start").addEventListener("click", () => {
+      if (ticker) {
+        clearInterval(ticker);
+        ticker = null;
       } else {
-        timerId = setInterval(() => {
-          if (remainingSec > 0) {
-            remainingSec--;
-            renderTimer();
+        ticker = setInterval(() => {
+          if (secLeft > 0) {
+            secLeft--;
+            drawClock();
           } else {
-            clearInterval(timerId);
-            timerId = null;
-            renderTimer();
-            flash("cockpit-toast", "Bloc terminé");
+            clearInterval(ticker);
+            ticker = null;
+            db.focusMinutesTotal += presetMins;
+            db.journal.unshift({
+              tag: "Session",
+              title: `Bloc complété (${presetMins} min)`,
+              body: db.quickNote.trim() || "Session terminée avec succès.",
+              date: new Date().toLocaleString("fr-FR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })
+            });
+            saveDb();
+            renderAll();
+            drawClock();
+            showMsg("cockpit-feedback", `+${presetMins} min ajoutées au total`);
           }
         }, 1000);
       }
-      renderTimer();
+      drawClock();
     });
 
-    document.getElementById("timer-reset").addEventListener("click", () => {
-      clearInterval(timerId);
-      timerId = null;
-      remainingSec = 25 * 60;
-      renderTimer();
+    document.getElementById("clock-log").addEventListener("click", () => {
+      db.focusMinutesTotal += presetMins;
+      db.journal.unshift({
+        tag: "Session",
+        title: `Bloc validé (${presetMins} min)`,
+        body: db.quickNote.trim() || "Bloc validé manuellement.",
+        date: new Date().toLocaleString("fr-FR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })
+      });
+      saveDb();
+      renderAll();
+      showMsg("cockpit-feedback", `Bloc de ${presetMins} min enregistré`);
     });
 
-    document.querySelectorAll("[data-mins]").forEach((btn) => {
+    document.getElementById("clock-reset").addEventListener("click", () => {
+      clearInterval(ticker);
+      ticker = null;
+      secLeft = presetMins * 60;
+      drawClock();
+    });
+
+    document.querySelectorAll("[data-preset]").forEach((btn) => {
       btn.addEventListener("click", () => {
-        clearInterval(timerId);
-        timerId = null;
-        remainingSec = (Number(btn.dataset.mins) || 25) * 60;
-        renderTimer();
+        clearInterval(ticker);
+        ticker = null;
+        presetMins = Number(btn.dataset.preset) || 25;
+        secLeft = presetMins * 60;
+        drawClock();
       });
     });
 
+    // Atelier
+    document.getElementById("atelier-goal").addEventListener("input", (e) => {
+      db.atelierGoal = e.target.value;
+      saveDb();
+    });
+    document.getElementById("atelier-blocks").addEventListener("input", (e) => {
+      db.atelierBlocks = Math.max(1, Math.min(8, Number(e.target.value) || 3));
+      saveDb();
+    });
+    document.getElementById("atelier-notes").addEventListener("input", (e) => {
+      db.atelierNotes = e.target.value;
+      saveDb();
+    });
+
+    document.getElementById("generate-steps-btn").addEventListener("click", () => {
+      if (!spendCredit()) return;
+      const goal = db.atelierGoal.trim() || "Objectif principal";
+      const count = Math.max(1, Math.min(8, Number(db.atelierBlocks) || 3));
+      const extra = db.atelierNotes.trim();
+      const generated = [];
+      for (let i = 1; i <= count; i++) {
+        generated.push(`Étape ${i}/${count} — ${goal}${i === count ? " (finalisation & contrôle)" : " (bloc d'avancement)"}`);
+      }
+      if (extra) generated.push(`Contrainte / point de vigilance — ${extra}`);
+      db.steps = generated;
+      saveDb();
+      renderAll();
+      showMsg("atelier-feedback", "Séquence générée");
+    });
+
+    document.getElementById("steps-list").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-step-routine]");
+      if (!btn) return;
+      const st = db.steps[Number(btn.dataset.stepRoutine)];
+      if (!st) return;
+      db.routines.push({ label: st, done: false });
+      saveDb();
+      renderAll();
+      goTab("cockpit");
+      showMsg("cockpit-feedback", "Étape ajoutée aux routines");
+    });
+
+    document.getElementById("copy-steps-btn").addEventListener("click", async () => {
+      if (!db.steps.length) return;
+      try {
+        await navigator.clipboard.writeText(db.steps.join("\n"));
+        showMsg("atelier-feedback", "Séquence copiée");
+      } catch {}
+    });
+
     // Projection
-    function updateSim() {
-      const vol = Math.max(0, Number(document.getElementById("sim-vol").value) || 0);
-      const rate = Math.max(0, Number(document.getElementById("sim-rate").value) || 0);
-      const price = Math.max(0, Number(document.getElementById("sim-price").value) || 0);
-      const orders = Math.round(vol * (rate / 100));
-      document.getElementById("sim-orders").textContent = orders.toLocaleString("fr-FR");
-      document.getElementById("sim-total").textContent = `${(orders * price).toLocaleString("fr-FR")} €`;
+    function updateProjection() {
+      const vol = Math.max(0, Number(document.getElementById("p-vol").value) || 0);
+      const rate = Math.max(0, Number(document.getElementById("p-rate").value) || 0);
+      const price = Math.max(0, Number(document.getElementById("p-price").value) || 0);
+      const clients = Math.round(vol * (rate / 100));
+      const rev = clients * price;
+      document.getElementById("p-clients").textContent = clients.toLocaleString("fr-FR");
+      document.getElementById("p-rev").textContent = `${rev.toLocaleString("fr-FR")} €`;
+      document.getElementById("p-year").textContent = `${(rev * 12).toLocaleString("fr-FR")} €`;
     }
 
-    ["sim-vol", "sim-rate", "sim-price"].forEach((id) => {
-      document.getElementById(id).addEventListener("input", updateSim);
+    ["p-vol", "p-rate", "p-price"].forEach((id) => {
+      document.getElementById(id).addEventListener("input", updateProjection);
     });
 
     // PWA install
-    let installPrompt = null;
-    const installBtn = document.getElementById("install-btn");
+    let deferredEvt = null;
+    const installBtn = document.getElementById("install-pwa-btn");
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
-      installPrompt = e;
+      deferredEvt = e;
       if (installBtn) installBtn.style.display = "inline-flex";
     });
     if (installBtn) {
       installBtn.addEventListener("click", async () => {
-        if (!installPrompt) return;
-        installPrompt.prompt();
-        await installPrompt.userChoice;
-        installPrompt = null;
+        if (!deferredEvt) return;
+        deferredEvt.prompt();
+        await deferredEvt.userChoice;
+        deferredEvt = null;
         installBtn.style.display = "none";
       });
     }
@@ -938,9 +1113,9 @@
     }
 
     renderCredits();
-    render();
-    renderTimer();
-    updateSim();
+    renderAll();
+    drawClock();
+    updateProjection();
   </script>
 </body>
 </html>
