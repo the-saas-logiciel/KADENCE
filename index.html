@@ -1,4 +1,3 @@
-HTML
 <!DOCTYPE html>
 <html lang="fr" class="dark">
 <head>
@@ -10,21 +9,26 @@ HTML
   <style>
     :root {
       --bg: #09090b;
-      --surface: #111114;
-      --surface-2: #18181c;
-      --border: rgba(255, 255, 255, 0.09);
-      --border-strong: rgba(255, 255, 255, 0.22);
-      --text: #f4f4f6;
-      --muted: #9a9aa4;
+      --surface: #111115;
+      --surface-2: #17171d;
+      --surface-3: #1f1f27;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.2);
+      --text: #f5f5f7;
+      --muted: #9c9ca8;
       --accent: #ffffff;
       --accent-ink: #09090b;
       --ok: #34d399;
-      --radius: 14px;
+      --warn: #fbbf24;
+      --radius: 16px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: var(--bg);
+      background:
+        radial-gradient(circle at 15% -10%, rgba(255, 255, 255, 0.06), transparent 42%),
+        radial-gradient(circle at 85% 0%, rgba(255, 255, 255, 0.04), transparent 38%),
+        var(--bg);
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
       line-height: 1.5;
@@ -33,275 +37,333 @@ HTML
     }
     a { color: inherit; text-decoration: none; }
 
-    .app {
-      max-width: 1140px;
+    .shell {
+      max-width: 1180px;
       margin: 0 auto;
-      padding: 18px 20px 48px;
+      padding: 18px 20px 56px;
     }
 
+    /* Topbar */
     .topbar {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      background: var(--surface);
+      gap: 14px;
+      background: rgba(17, 17, 21, 0.88);
+      backdrop-filter: blur(14px);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 14px 18px;
       margin-bottom: 16px;
+      position: sticky;
+      top: 12px;
+      z-index: 30;
     }
 
-    .brand-group { display: flex; align-items: center; gap: 12px; }
-    .brand-dot { width: 9px; height: 9px; border-radius: 999px; background: var(--accent); }
-    .app-title { font-weight: 700; letter-spacing: 0.08em; font-size: 0.96rem; }
-    .app-sub { font-size: 0.78rem; color: var(--muted); }
-
-    .top-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      padding: 7px 12px;
-      border-radius: 9px;
-      font-size: 0.82rem;
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark {
+      width: 34px; height: 34px; border-radius: 10px;
+      background: var(--surface-3); border: 1px solid var(--border-strong);
+      display: grid; place-items: center; font-weight: 800; font-size: 0.9rem; letter-spacing: 0.04em;
     }
-    .pill strong { font-variant-numeric: tabular-nums; }
+    .brand-name { font-weight: 700; letter-spacing: 0.1em; font-size: 0.95rem; }
+    .brand-sub { font-size: 0.76rem; color: var(--muted); }
 
+    .top-right { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+
+    .chip {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--surface-2); border: 1px solid var(--border);
+      padding: 7px 12px; border-radius: 10px; font-size: 0.82rem;
+    }
+    .chip strong { font-variant-numeric: tabular-nums; }
+
+    /* Buttons */
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 10px 14px;
-      border-radius: 9px;
-      font-size: 0.84rem;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1px solid transparent;
-      transition: transform 0.1s ease, opacity 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 10px 14px; border-radius: 10px; font-size: 0.84rem; font-weight: 600;
+      cursor: pointer; border: 1px solid transparent;
+      transition: transform 0.1s ease, background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
     }
     .btn:active { transform: scale(0.985); }
     .btn-primary { background: var(--accent); color: var(--accent-ink); }
     .btn-primary:hover { opacity: 0.92; }
     .btn-ghost { background: var(--surface-2); color: var(--text); border-color: var(--border); }
-    .btn-ghost:hover { border-color: var(--border-strong); }
-    .btn-sm { padding: 6px 10px; font-size: 0.78rem; border-radius: 7px; }
+    .btn-ghost:hover { border-color: var(--border-strong); background: var(--surface-3); }
+    .btn-sm { padding: 6px 10px; font-size: 0.78rem; border-radius: 8px; }
 
+    /* Navigation Tabs */
     .tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 16px;
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 18px;
     }
     .tab-btn {
-      padding: 9px 14px;
-      border-radius: 9px;
-      background: var(--surface);
-      color: var(--muted);
-      border: 1px solid var(--border);
-      font-size: 0.84rem;
-      font-weight: 600;
-      cursor: pointer;
+      padding: 9px 15px; border-radius: 10px;
+      background: var(--surface); color: var(--muted);
+      border: 1px solid var(--border); font-size: 0.84rem; font-weight: 600;
+      cursor: pointer; transition: all 0.15s ease;
     }
+    .tab-btn:hover { color: var(--text); border-color: var(--border-strong); }
     .tab-btn.active {
-      background: var(--accent);
-      color: var(--accent-ink);
-      border-color: var(--accent);
+      background: var(--accent); color: var(--accent-ink); border-color: var(--accent);
     }
 
     .view { display: none; }
     .view.active { display: block; }
 
+    /* Grid & Cards */
     .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
     .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-    @media (max-width: 920px) {
+    @media (max-width: 960px) {
       .grid-3, .grid-2 { grid-template-columns: 1fr; }
     }
 
     .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px;
+      display: flex; flex-direction: column; gap: 13px;
     }
     .card.featured {
       border-color: var(--border-strong);
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.01));
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
     }
-    .card-label {
-      font-size: 0.74rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      font-weight: 600;
+    .card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .card-tag {
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.09em;
+      color: var(--muted); font-weight: 700;
     }
 
-    .kpi-item {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 11px;
+    /* Progress & KPIs */
+    .global-progress {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 14px 18px; margin-bottom: 16px;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px;
     }
-    .kpi-top { display: flex; justify-content: space-between; gap: 8px; font-size: 0.86rem; margin-bottom: 7px; }
-    .kpi-nums { color: var(--muted); font-size: 0.78rem; font-variant-numeric: tabular-nums; }
-    .bar { height: 6px; background: var(--surface-2); border-radius: 999px; overflow: hidden; margin-bottom: 9px; }
+    .progress-track {
+      flex: 1; min-width: 200px; height: 8px;
+      background: var(--surface-3); border-radius: 999px; overflow: hidden;
+    }
+    .progress-fill { height: 100%; background: var(--accent); transition: width 0.25s ease; }
+
+    .kpi-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px;
+    }
+    .kpi-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 8px; font-size: 0.88rem; font-weight: 500; }
+    .kpi-meta { font-size: 0.78rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .bar { height: 6px; background: var(--surface-2); border-radius: 999px; overflow: hidden; margin-bottom: 10px; }
     .bar-fill { height: 100%; background: var(--accent); transition: width 0.2s ease; }
-    .kpi-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+    .kpi-btns { display: flex; flex-wrap: wrap; gap: 6px; }
 
-    .routine-list { display: flex; flex-direction: column; gap: 7px; }
-    .routine-item {
-      display: flex; align-items: center; justify-content: space-between; gap: 8px;
-      background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 9px 11px; font-size: 0.85rem;
+    /* Routines */
+    .routine-list { display: flex; flex-direction: column; gap: 8px; }
+    .routine-card {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 12px; padding: 10px 12px; font-size: 0.85rem;
     }
-    .routine-check { display: flex; align-items: center; gap: 9px; cursor: pointer; flex: 1; }
-    .routine-item input[type="checkbox"] { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
-    .routine-item.done span { text-decoration: line-through; color: var(--muted); }
+    .routine-label { display: flex; align-items: center; gap: 10px; cursor: pointer; flex: 1; }
+    .routine-card input[type="checkbox"] { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
+    .routine-card.done span { text-decoration: line-through; color: var(--muted); }
 
+    /* Timer */
+    .timer-box {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .timer-display {
+      font-size: 1.85rem; font-weight: 700; letter-spacing: 0.04em;
+      font-variant-numeric: tabular-nums;
+    }
+    .timer-presets { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    /* Inputs & Panels */
     input.field, textarea.area {
-      width: 100%;
-      background: var(--bg);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      padding: 9px 11px;
-      font-family: inherit;
-      font-size: 0.84rem;
+      width: 100%; background: var(--bg); color: var(--text);
+      border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px;
+      font-family: inherit; font-size: 0.85rem;
     }
     input.field:focus, textarea.area:focus { outline: none; border-color: var(--border-strong); }
-    textarea.area { min-height: 120px; resize: vertical; }
+    textarea.area { min-height: 92px; resize: vertical; }
 
-    .row-add { display: grid; grid-template-columns: 1fr 68px auto; gap: 7px; }
-    .row-add-2 { display: grid; grid-template-columns: 1fr auto; gap: 7px; }
+    .add-kpi { display: grid; grid-template-columns: 1fr 68px auto; gap: 7px; }
+    .add-routine { display: grid; grid-template-columns: 1fr auto; gap: 7px; }
 
-    .plan-box {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 11px;
-      font-size: 0.82rem;
-      color: var(--muted);
-      white-space: pre-line;
-      display: none;
+    .structured-plan {
+      background: var(--bg); border: 1px solid var(--border-strong);
+      border-radius: 12px; padding: 13px;
+      display: none; flex-direction: column; gap: 8px; font-size: 0.84rem;
     }
-    .plan-box.visible { display: block; }
+    .structured-plan.visible { display: flex; }
+    .plan-step {
+      padding: 8px 10px; background: var(--surface-2); border-radius: 8px;
+      color: var(--text); font-size: 0.82rem;
+    }
 
-    .price { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; margin: 6px 0; }
-    .price span { font-size: 0.85rem; font-weight: 400; color: var(--muted); }
-
+    /* Pricing */
+    .price { font-size: 2.1rem; font-weight: 700; letter-spacing: -0.02em; margin: 4px 0; }
+    .price span { font-size: 0.86rem; font-weight: 400; color: var(--muted); }
     .features {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      font-size: 0.86rem;
-      color: var(--muted);
-      margin: 8px 0 14px;
+      list-style: none; display: flex; flex-direction: column; gap: 8px;
+      font-size: 0.87rem; color: var(--muted); margin: 8px 0 14px;
     }
     .features li::before { content: "— "; color: var(--text); }
 
-    .credit-banner {
-      margin-top: 14px;
+    .lock-banner {
+      margin-top: 16px;
       background: rgba(251, 191, 36, 0.08);
       border: 1px solid rgba(251, 191, 36, 0.35);
-      border-radius: 10px;
-      padding: 12px 14px;
-      font-size: 0.84rem;
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
+      border-radius: 12px; padding: 13px 16px;
+      font-size: 0.85rem; display: none;
+      align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
     }
-    .credit-banner.visible { display: flex; }
+    .lock-banner.visible { display: flex; }
 
-    .setting-row {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      font-size: 0.84rem;
-      color: var(--muted);
-    }
-
-    .status { font-size: 0.8rem; color: var(--ok); min-height: 18px; }
+    .toast { font-size: 0.8rem; color: var(--ok); min-height: 18px; }
   </style>
 </head>
 <body>
-  <div class="app">
+  <div class="shell">
     <header class="topbar">
-      <div class="brand-group">
-        <span class="brand-dot"></span>
+      <div class="brand">
+        <div class="brand-mark">K</div>
         <div>
-          <div class="app-title" id="app-title">KADENCE</div>
-          <div class="app-sub" id="app-sub">Application d'exécution</div>
+          <div class="brand-name">KADENCE</div>
+          <div class="brand-sub">Système d'exécution &amp; cadence</div>
         </div>
       </div>
 
-      <div class="top-actions">
-        <div class="pill">
-          <span>Crédits :</span>
-          <strong id="credits-val">5 / 5</strong>
+      <div class="top-right">
+        <div class="chip">
+          <span>Crédits</span>
+          <strong id="credits-ui">5 / 5</strong>
         </div>
-        <div class="pill">
-          <span>Score :</span>
-          <strong id="score-val">0%</strong>
+        <div class="chip">
+          <span>Score</span>
+          <strong id="score-ui">0%</strong>
         </div>
-        <button type="button" class="btn btn-ghost btn-sm" id="install-btn" style="display: none;">Installer</button>
-        <button type="button" class="btn btn-primary btn-sm" data-open-tab="forfaits">Forfaits</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="install-btn" style="display: none;">Installer l'appli</button>
+        <button type="button" class="btn btn-primary btn-sm" data-jump="forfaits">Forfaits</button>
       </div>
     </header>
 
-    <div class="tabs" role="tablist">
+    <div class="global-progress">
+      <div style="font-size: 0.84rem; color: var(--muted);">
+        Progression du jour : <strong style="color: var(--text);" id="progress-label">0%</strong>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width: 0%;"></div>
+      </div>
+      <div style="font-size: 0.8rem; color: var(--muted);" id="summary-label">0 objectif • 0 routine</div>
+    </div>
+
+    <nav class="tabs" role="tablist">
       <button type="button" class="tab-btn active" data-tab="cockpit">Cockpit</button>
+      <button type="button" class="tab-btn" data-tab="atelier">Atelier Plan</button>
       <button type="button" class="tab-btn" data-tab="protocoles">Protocoles</button>
       <button type="button" class="tab-btn" data-tab="projection">Projection</button>
       <button type="button" class="tab-btn" data-tab="forfaits">Forfaits</button>
-      <button type="button" class="tab-btn" data-tab="parametres">Paramètres</button>
-    </div>
+    </nav>
 
     <!-- COCKPIT -->
     <section class="view active" id="view-cockpit">
       <div class="grid-3">
+        <!-- Objectifs -->
         <div class="card">
-          <div class="card-label">Objectifs</div>
+          <div class="card-head">
+            <span class="card-tag">Objectifs actifs</span>
+            <span class="kpi-meta" id="kpi-count-label">0</span>
+          </div>
           <div id="kpi-list" style="display: flex; flex-direction: column; gap: 9px;"></div>
-          <form class="row-add" id="kpi-form">
-            <input type="text" class="field" id="kpi-input" placeholder="Nouvel objectif..." maxlength="48" />
-            <input type="number" class="field" id="kpi-target-input" value="3" min="1" max="50" />
+          <form class="add-kpi" id="kpi-form">
+            <input type="text" class="field" id="kpi-name" placeholder="Ex. Bloc profond, Livraison..." maxlength="48" />
+            <input type="number" class="field" id="kpi-target" value="3" min="1" max="50" />
             <button type="submit" class="btn btn-ghost btn-sm">+1 cr.</button>
           </form>
         </div>
 
+        <!-- Routines -->
         <div class="card">
-          <div class="card-label">Routines</div>
+          <div class="card-head">
+            <span class="card-tag">Routines quotidiennes</span>
+            <span class="kpi-meta" id="routine-count-label">0</span>
+          </div>
           <div class="routine-list" id="routine-list"></div>
-          <form class="row-add-2" id="routine-form">
-            <input type="text" class="field" id="routine-input" placeholder="Nouvelle routine..." maxlength="60" />
+          <form class="add-routine" id="routine-form">
+            <input type="text" class="field" id="routine-name" placeholder="Ajouter une routine..." maxlength="60" />
             <button type="submit" class="btn btn-ghost btn-sm">Ajouter</button>
           </form>
         </div>
 
+        <!-- Chrono & Notes -->
         <div class="card">
-          <div class="card-label">Débrief &amp; Plan</div>
-          <textarea class="area" id="debrief-area" placeholder="Notes, blocages, priorité suivante..."></textarea>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button type="button" class="btn btn-ghost btn-sm" id="copy-note-btn">Copier</button>
-            <button type="button" class="btn btn-primary btn-sm" id="gen-plan-btn">Générer plan (-1 cr.)</button>
+          <div class="card-head">
+            <span class="card-tag">Session &amp; Notes</span>
+            <span class="kpi-meta" id="timer-status">Prêt</span>
           </div>
-          <div class="plan-box" id="plan-box"></div>
-          <div class="status" id="app-status"></div>
+
+          <div class="timer-box">
+            <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
+              <div class="timer-display" id="timer-display">25:00</div>
+              <div style="display: flex; gap: 6px;">
+                <button type="button" class="btn btn-primary btn-sm" id="timer-toggle">Démarrer</button>
+                <button type="button" class="btn btn-ghost btn-sm" id="timer-reset">Reset</button>
+              </div>
+            </div>
+            <div class="timer-presets">
+              <button type="button" class="btn btn-ghost btn-sm" data-mins="15">15 min</button>
+              <button type="button" class="btn btn-ghost btn-sm" data-mins="25">25 min</button>
+              <button type="button" class="btn btn-ghost btn-sm" data-mins="45">45 min</button>
+            </div>
+          </div>
+
+          <textarea class="area" id="notes-area" placeholder="Notes de session, points clés, suite à donner..."></textarea>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" class="btn btn-ghost btn-sm" id="copy-notes-btn">Copier notes</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="send-to-plan-btn">Envoyer vers Atelier</button>
+          </div>
+          <div class="toast" id="cockpit-toast"></div>
         </div>
       </div>
 
-      <div class="credit-banner" id="credit-banner">
-        <span><strong>0 crédit gratuit restant.</strong> Passe sur un forfait pour continuer sans limite.</span>
-        <button type="button" class="btn btn-primary btn-sm" data-open-tab="forfaits">Voir les forfaits</button>
+      <div class="lock-banner" id="lock-banner">
+        <span><strong>Limite de 5 crédits gratuits atteinte.</strong> Passe sur une formule pour continuer à ajouter des objectifs ou générer des plans.</span>
+        <button type="button" class="btn btn-primary btn-sm" data-jump="forfaits">Voir les forfaits</button>
+      </div>
+    </section>
+
+    <!-- ATELIER PLAN -->
+    <section class="view" id="view-atelier">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head">
+            <span class="card-tag">Structuration de session</span>
+            <span class="kpi-meta">Coût : 1 crédit</span>
+          </div>
+          <p style="color: var(--muted); font-size: 0.85rem;">
+            Décris ce que tu veux accomplir ou ce qui te freine : l'atelier organise ta séquence d'action en étapes claires.
+          </p>
+          <input type="text" class="field" id="plan-focus" placeholder="Priorité principale (ex. Finir le montage, boucler la semaine...)" maxlength="80" />
+          <textarea class="area" id="plan-context" placeholder="Contexte, contraintes ou tâches à organiser..."></textarea>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" class="btn btn-primary btn-sm" id="build-plan-btn">Structurer le plan (-1 cr.)</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="copy-plan-btn">Copier le plan</button>
+          </div>
+          <div class="toast" id="atelier-toast"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <span class="card-tag">Panneau d'exécution</span>
+            <span class="kpi-meta" id="plan-badge">En attente</span>
+          </div>
+          <div class="structured-plan" id="plan-panel"></div>
+          <div id="plan-empty" style="color: var(--muted); font-size: 0.85rem;">
+            Aucun plan généré pour le moment. Saisis une priorité à gauche pour afficher ta séquence d'exécution.
+          </div>
+        </div>
       </div>
     </section>
 
@@ -309,40 +371,55 @@ HTML
     <section class="view" id="view-protocoles">
       <div class="grid-2">
         <div class="card">
-          <div class="card-label">Protocole 01</div>
-          <strong>Démarrage &amp; Priorité</strong>
+          <div class="card-tag">Cadre 01</div>
+          <strong>Séquence d'ouverture</strong>
           <p style="color: var(--muted); font-size: 0.85rem;">
-            1. Choisir une priorité majeure avant toute dispersion.
-            2. Garder des cibles chiffrées simples.
-            3. Lancer le premier bloc immédiatement.
+            Bloque une priorité unique en début de session, coupe les notifications parasites et lance un bloc de 25 ou 45 minutes.
           </p>
+          <div>
+            <button type="button" class="btn btn-ghost btn-sm add-preset-routine" data-routine="Verrouiller la priorité #1 en début de session">
+              Ajouter aux routines
+            </button>
+          </div>
         </div>
+
         <div class="card">
-          <div class="card-label">Protocole 02</div>
-          <strong>Exécution en Bloc</strong>
+          <div class="card-tag">Cadre 02</div>
+          <strong>Exécution sans friction</strong>
           <p style="color: var(--muted); font-size: 0.85rem;">
-            1. Définir la tâche exacte et le temps consacré.
-            2. Éviter les changements d'onglet ou de sujet.
-            3. Incrémenter l'objectif dès qu'une unité est finie.
+            Avance sur un seul livrable à la fois et mets à jour ton compteur dès qu'une unité concrète est validée.
           </p>
+          <div>
+            <button type="button" class="btn btn-ghost btn-sm add-preset-routine" data-routine="Exécuter un bloc ciblé sans changer de tâche">
+              Ajouter aux routines
+            </button>
+          </div>
         </div>
+
         <div class="card">
-          <div class="card-label">Protocole 03</div>
-          <strong>Point de Mi-Journée</strong>
+          <div class="card-tag">Cadre 03</div>
+          <strong>Point de contrôle</strong>
           <p style="color: var(--muted); font-size: 0.85rem;">
-            1. Vérifier le score et l'écart restant sur les cibles.
-            2. Réajuster l'ordre des tâches si besoin.
-            3. Couper le superflu.
+            Évalue l'écart entre ton rythme actuel et ta cible de la journée, puis allège les tâches secondaires si nécessaire.
           </p>
+          <div>
+            <button type="button" class="btn btn-ghost btn-sm add-preset-routine" data-routine="Faire un point d'avancement à mi-parcours">
+              Ajouter aux routines
+            </button>
+          </div>
         </div>
+
         <div class="card">
-          <div class="card-label">Protocole 04</div>
-          <strong>Clôture &amp; Lendemain</strong>
+          <div class="card-tag">Cadre 04</div>
+          <strong>Clôture propre</strong>
           <p style="color: var(--muted); font-size: 0.85rem;">
-            1. Cocher les routines effectuées.
-            2. Écrire la première action de demain dans le débrief.
-            3. Fermer la session proprement.
+            Note ce qui a avancé, coche les routines terminées et fixe la première action de la prochaine session.
           </p>
+          <div>
+            <button type="button" class="btn btn-ghost btn-sm add-preset-routine" data-routine="Clôturer avec un bilan rapide et la prochaine étape">
+              Ajouter aux routines
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -351,27 +428,34 @@ HTML
     <section class="view" id="view-projection">
       <div class="grid-2">
         <div class="card">
-          <div class="card-label">Paramètres de projection</div>
-          <label class="setting-row">
-            Volume mensuel
-            <input type="number" class="field" id="proj-vol" value="1000" min="0" step="100" />
+          <div class="card-tag">Simulateur</div>
+          <label style="font-size: 0.84rem; color: var(--muted); display: flex; flex-direction: column; gap: 6px;">
+            Volume mensuel (sessions / visites)
+            <input type="number" class="field" id="sim-vol" value="1000" min="0" step="100" />
           </label>
-          <label class="setting-row">
-            Taux (%)
-            <input type="number" class="field" id="proj-rate" value="2" min="0" max="100" step="0.5" />
+          <label style="font-size: 0.84rem; color: var(--muted); display: flex; flex-direction: column; gap: 6px;">
+            Taux de conversion (%)
+            <input type="number" class="field" id="sim-rate" value="2" min="0" max="100" step="0.5" />
           </label>
-          <label class="setting-row">
-            Valeur unitaire (€)
-            <input type="number" class="field" id="proj-val" value="79" min="1" step="1" />
+          <label style="font-size: 0.84rem; color: var(--muted); display: flex; flex-direction: column; gap: 6px;">
+            Panier / valeur (€)
+            <input type="number" class="field" id="sim-price" value="79" min="1" step="1" />
           </label>
         </div>
+
         <div class="card">
-          <div class="card-label">Résultat estimé</div>
-          <div class="kpi-item">
-            <div class="kpi-top"><span>Unités estimées / mois</span><strong id="proj-units">20</strong></div>
+          <div class="card-tag">Projection estimée</div>
+          <div class="kpi-card">
+            <div class="kpi-top" style="margin-bottom: 0;">
+              <span>Conversions estimées / mois</span>
+              <strong id="sim-orders">20</strong>
+            </div>
           </div>
-          <div class="kpi-item">
-            <div class="kpi-top"><span>Total estimé</span><strong id="proj-total">1 580 €</strong></div>
+          <div class="kpi-card">
+            <div class="kpi-top" style="margin-bottom: 0;">
+              <span>Revenu projeté / mois</span>
+              <strong id="sim-total">1 580 €</strong>
+            </div>
           </div>
         </div>
       </div>
@@ -382,15 +466,15 @@ HTML
       <div class="grid-2">
         <div class="card">
           <div>
-            <div class="card-label">Essentiel</div>
+            <div class="card-tag">Essentiel</div>
             <div class="price">29 € <span>/ mois</span></div>
             <p style="color: var(--muted); font-size: 0.86rem;">
-              Accès mensuel au cockpit, aux routines et aux protocoles.
+              Pour garder une cadence régulière au quotidien avec un suivi clair et structuré.
             </p>
             <ul class="features">
-              <li>Cockpit avec score automatique</li>
-              <li>Protocoles &amp; suivi quotidien</li>
-              <li>Gestion d'abonnement via Stripe</li>
+              <li>Cockpit avec suivi d'objectifs et routines</li>
+              <li>Chrono de session &amp; atelier de planification</li>
+              <li>Abonnement mensuel géré via Stripe</li>
             </ul>
           </div>
           <a
@@ -405,15 +489,15 @@ HTML
 
         <div class="card featured">
           <div>
-            <div class="card-label">Système Complet</div>
+            <div class="card-tag">Système Complet</div>
             <div class="price">79 € <span>/ paiement unique</span></div>
             <p style="color: var(--muted); font-size: 0.86rem;">
-              Accès complet à tous les modules et outils de projection en un seul paiement.
+              Accès complet à l'ensemble des modules, protocoles et outils de projection sans abonnement récurrent.
             </p>
             <ul class="features">
-              <li>Tout le contenu Essentiel</li>
-              <li>Tous les protocoles &amp; projections</li>
-              <li>Paiement unique sécurisé Stripe</li>
+              <li>Tout le contenu de la formule Essentiel</li>
+              <li>Protocoles complets &amp; simulateur de projection</li>
+              <li>Paiement unique sécurisé via Stripe</li>
             </ul>
           </div>
           <a
@@ -427,59 +511,26 @@ HTML
         </div>
       </div>
     </section>
-
-    <!-- PARAMÈTRES -->
-    <section class="view" id="view-parametres">
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-label">Personnalisation</div>
-          <label class="setting-row">
-            Nom de l'application / espace
-            <input type="text" class="field" id="cfg-title" maxlength="32" />
-          </label>
-          <label class="setting-row">
-            Sous-titre
-            <input type="text" class="field" id="cfg-subtitle" maxlength="60" />
-          </label>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button type="button" class="btn btn-primary btn-sm" id="save-cfg-btn">Enregistrer</button>
-            <button type="button" class="btn btn-ghost btn-sm" id="clear-all-btn">Vider les données</button>
-          </div>
-          <div class="status" id="cfg-status"></div>
-        </div>
-
-        <div class="card">
-          <div class="card-label">Données locales (JSON)</div>
-          <p style="color: var(--muted); font-size: 0.84rem;">
-            Toutes tes modifications sont enregistrées dans ton navigateur.
-          </p>
-          <textarea class="area" id="json-box" readonly></textarea>
-          <div>
-            <button type="button" class="btn btn-ghost btn-sm" id="copy-json-btn">Copier JSON</button>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
 
   <script>
-    const STORE_KEY = "kadence_direct_app_v1";
+    const STATE_KEY = "kadence_client_app_v1";
     const CREDITS_KEY = "kadence_free_credits_v1";
     const MAX_CREDITS = 5;
 
-    const defaultData = {
-      config: {
-        title: "KADENCE",
-        subtitle: "Application d'exécution"
-      },
+    const defaultState = {
       kpis: [
-        { label: "Objectif 1", current: 0, target: 3 }
+        { label: "Blocs d'exécution", current: 1, target: 3 },
+        { label: "Livrables bouclés", current: 0, target: 2 }
       ],
       routines: [
-        { label: "Routine 1", done: false }
+        { label: "Définir la priorité #1 de la session", done: false },
+        { label: "Faire un bloc de 25 min sans distraction", done: false }
       ],
-      debrief: "",
-      plan: ""
+      notes: "",
+      planFocus: "",
+      planContext: "",
+      planSteps: []
     };
 
     function getCredits() {
@@ -510,44 +561,44 @@ HTML
 
     function renderCredits() {
       const c = getCredits();
-      document.getElementById("credits-val").textContent = `${c} / ${MAX_CREDITS}`;
-      const banner = document.getElementById("credit-banner");
+      document.getElementById("credits-ui").textContent = `${c} / ${MAX_CREDITS}`;
+      const banner = document.getElementById("lock-banner");
       if (c <= 0) banner.classList.add("visible");
       else banner.classList.remove("visible");
     }
 
-    function loadData() {
+    function loadState() {
       try {
-        const raw = localStorage.getItem(STORE_KEY);
-        if (!raw) return structuredClone(defaultData);
+        const raw = localStorage.getItem(STATE_KEY);
+        if (!raw) return structuredClone(defaultState);
         const p = JSON.parse(raw);
         return {
-          config: {
-            title: p.config?.title || defaultData.config.title,
-            subtitle: p.config?.subtitle || defaultData.config.subtitle
-          },
-          kpis: Array.isArray(p.kpis) ? p.kpis : structuredClone(defaultData.kpis),
-          routines: Array.isArray(p.routines) ? p.routines : structuredClone(defaultData.routines),
-          debrief: typeof p.debrief === "string" ? p.debrief : "",
-          plan: typeof p.plan === "string" ? p.plan : ""
+          kpis: Array.isArray(p.kpis) ? p.kpis : structuredClone(defaultState.kpis),
+          routines: Array.isArray(p.routines) ? p.routines : structuredClone(defaultState.routines),
+          notes: typeof p.notes === "string" ? p.notes : "",
+          planFocus: typeof p.planFocus === "string" ? p.planFocus : "",
+          planContext: typeof p.planContext === "string" ? p.planContext : "",
+          planSteps: Array.isArray(p.planSteps) ? p.planSteps : []
         };
       } catch {
-        return structuredClone(defaultData);
+        return structuredClone(defaultState);
       }
     }
 
-    let data = loadData();
+    let state = loadState();
 
-    function saveData(msg = "") {
+    function saveState() {
       try {
-        localStorage.setItem(STORE_KEY, JSON.stringify(data));
+        localStorage.setItem(STATE_KEY, JSON.stringify(state));
       } catch {}
-      if (msg) {
-        const el = document.getElementById("app-status");
-        el.textContent = msg;
-        setTimeout(() => { el.textContent = ""; }, 1500);
-      }
-      syncJson();
+    }
+
+    function flash(id, text) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = text;
+      clearTimeout(el._t);
+      el._t = setTimeout(() => { el.textContent = ""; }, 1600);
     }
 
     function esc(s) {
@@ -556,56 +607,51 @@ HTML
       }[m]));
     }
 
-    function switchTab(name) {
+    function openTab(tabName) {
       document.querySelectorAll(".tab-btn").forEach((b) => {
-        b.classList.toggle("active", b.dataset.tab === name);
+        b.classList.toggle("active", b.dataset.tab === tabName);
       });
       document.querySelectorAll(".view").forEach((v) => {
-        v.classList.toggle("active", v.id === `view-${name}`);
+        v.classList.toggle("active", v.id === `view-${tabName}`);
       });
     }
 
     function render() {
-      document.getElementById("app-title").textContent = data.config.title;
-      document.getElementById("app-sub").textContent = data.config.subtitle;
-      document.getElementById("cfg-title").value = data.config.title;
-      document.getElementById("cfg-subtitle").value = data.config.subtitle;
-
       const kpiList = document.getElementById("kpi-list");
       kpiList.innerHTML = "";
-      let ratio = 0;
+      let kpiRatio = 0;
 
-      data.kpis.forEach((k, idx) => {
+      state.kpis.forEach((k, idx) => {
         const pct = Math.min(100, Math.round((k.current / Math.max(1, k.target)) * 100));
-        ratio += Math.min(1, k.current / Math.max(1, k.target));
-        const div = document.createElement("div");
-        div.className = "kpi-item";
-        div.innerHTML = `
+        kpiRatio += Math.min(1, k.current / Math.max(1, k.target));
+        const el = document.createElement("div");
+        el.className = "kpi-card";
+        el.innerHTML = `
           <div class="kpi-top">
             <span>${esc(k.label)}</span>
-            <span class="kpi-nums">${k.current} / ${k.target}</span>
+            <span class="kpi-meta">${k.current} / ${k.target}</span>
           </div>
           <div class="bar"><div class="bar-fill" style="width: ${pct}%;"></div></div>
-          <div class="kpi-actions">
+          <div class="kpi-btns">
             <button type="button" class="btn btn-ghost btn-sm" data-kact="dec" data-idx="${idx}">-1</button>
             <button type="button" class="btn btn-ghost btn-sm" data-kact="inc" data-idx="${idx}">+1</button>
-            <button type="button" class="btn btn-ghost btn-sm" data-kact="edit" data-idx="${idx}">Éditer</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-kact="edit" data-idx="${idx}">Modifier</button>
             <button type="button" class="btn btn-ghost btn-sm" data-kact="del" data-idx="${idx}">Suppr</button>
           </div>
         `;
-        kpiList.appendChild(div);
+        kpiList.appendChild(el);
       });
 
       const rList = document.getElementById("routine-list");
       rList.innerHTML = "";
-      let done = 0;
+      let doneCount = 0;
 
-      data.routines.forEach((r, idx) => {
-        if (r.done) done++;
+      state.routines.forEach((r, idx) => {
+        if (r.done) doneCount++;
         const row = document.createElement("div");
-        row.className = `routine-item ${r.done ? "done" : ""}`;
+        row.className = `routine-card ${r.done ? "done" : ""}`;
         row.innerHTML = `
-          <label class="routine-check">
+          <label class="routine-label">
             <input type="checkbox" data-ridx="${idx}" ${r.done ? "checked" : ""} />
             <span>${esc(r.label)}</span>
           </label>
@@ -614,103 +660,113 @@ HTML
         rList.appendChild(row);
       });
 
-      const kAvg = data.kpis.length ? ratio / data.kpis.length : 0;
-      const rAvg = data.routines.length ? done / data.routines.length : 0;
+      const kAvg = state.kpis.length ? kpiRatio / state.kpis.length : 0;
+      const rAvg = state.routines.length ? doneCount / state.routines.length : 0;
       const score = Math.round(((kAvg + rAvg) / 2) * 100);
-      document.getElementById("score-val").textContent = `${score}%`;
 
-      const area = document.getElementById("debrief-area");
-      if (area.value !== data.debrief) area.value = data.debrief;
+      document.getElementById("score-ui").textContent = `${score}%`;
+      document.getElementById("progress-label").textContent = `${score}%`;
+      document.getElementById("progress-fill").style.width = `${score}%`;
+      document.getElementById("summary-label").textContent =
+        `${state.kpis.length} objectif(s) • ${doneCount}/${state.routines.length} routine(s)`;
+      document.getElementById("kpi-count-label").textContent = `${state.kpis.length}`;
+      document.getElementById("routine-count-label").textContent = `${doneCount}/${state.routines.length}`;
 
-      const planBox = document.getElementById("plan-box");
-      if (data.plan) {
-        planBox.textContent = data.plan;
-        planBox.classList.add("visible");
+      const notesArea = document.getElementById("notes-area");
+      if (notesArea.value !== state.notes) notesArea.value = state.notes;
+
+      const focusInput = document.getElementById("plan-focus");
+      if (focusInput.value !== state.planFocus) focusInput.value = state.planFocus;
+
+      const ctxArea = document.getElementById("plan-context");
+      if (ctxArea.value !== state.planContext) ctxArea.value = state.planContext;
+
+      const planPanel = document.getElementById("plan-panel");
+      const planEmpty = document.getElementById("plan-empty");
+      const planBadge = document.getElementById("plan-badge");
+
+      if (state.planSteps.length > 0) {
+        planPanel.innerHTML = state.planSteps
+          .map((s) => `<div class="plan-step">${esc(s)}</div>`)
+          .join("");
+        planPanel.classList.add("visible");
+        planEmpty.style.display = "none";
+        planBadge.textContent = "Actif";
       } else {
-        planBox.textContent = "";
-        planBox.classList.remove("visible");
+        planPanel.innerHTML = "";
+        planPanel.classList.remove("visible");
+        planEmpty.style.display = "block";
+        planBadge.textContent = "En attente";
       }
-
-      syncJson();
     }
 
-    function syncJson() {
-      const box = document.getElementById("json-box");
-      if (box) box.value = JSON.stringify(data, null, 2);
-    }
-
-    function updateProjection() {
-      const vol = Math.max(0, Number(document.getElementById("proj-vol").value) || 0);
-      const rate = Math.max(0, Number(document.getElementById("proj-rate").value) || 0);
-      const val = Math.max(0, Number(document.getElementById("proj-val").value) || 0);
-      const units = Math.round(vol * (rate / 100));
-      document.getElementById("proj-units").textContent = units.toLocaleString("fr-FR");
-      document.getElementById("proj-total").textContent = `${(units * val).toLocaleString("fr-FR")} €`;
-    }
-
-    document.querySelectorAll(".tab-btn").forEach((b) => {
-      b.addEventListener("click", () => switchTab(b.dataset.tab));
+    // Tabs
+    document.querySelectorAll(".tab-btn").forEach((btn) => {
+      btn.addEventListener("click", () => openTab(btn.dataset.tab));
+    });
+    document.querySelectorAll("[data-jump]").forEach((btn) => {
+      btn.addEventListener("click", () => openTab(btn.dataset.jump));
     });
 
-    document.querySelectorAll("[data-open-tab]").forEach((b) => {
-      b.addEventListener("click", () => switchTab(b.dataset.openTab));
-    });
-
+    // KPI actions
     document.getElementById("kpi-form").addEventListener("submit", (e) => {
       e.preventDefault();
-      const inp = document.getElementById("kpi-input");
-      const tgt = document.getElementById("kpi-target-input");
-      const label = inp.value.trim();
+      const nameEl = document.getElementById("kpi-name");
+      const targetEl = document.getElementById("kpi-target");
+      const label = nameEl.value.trim();
       if (!label) return;
       if (!consumeCredit()) return;
-      data.kpis.push({
+      state.kpis.push({
         label,
         current: 0,
-        target: Math.max(1, Math.min(50, Number(tgt.value) || 3))
+        target: Math.max(1, Math.min(50, Number(targetEl.value) || 3))
       });
-      inp.value = "";
-      saveData("Ajouté");
+      nameEl.value = "";
+      saveState();
       render();
+      flash("cockpit-toast", "Objectif ajouté");
     });
 
     document.getElementById("kpi-list").addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-kact]");
       if (!btn) return;
       const idx = Number(btn.dataset.idx);
-      const item = data.kpis[idx];
+      const item = state.kpis[idx];
       if (!item) return;
       const act = btn.dataset.kact;
       if (act === "inc") item.current = Math.min(item.target * 2, item.current + 1);
       if (act === "dec") item.current = Math.max(0, item.current - 1);
       if (act === "edit") {
-        const nextLabel = prompt("Nom :", item.label);
+        const nextLabel = prompt("Nom de l'objectif :", item.label);
         if (nextLabel && nextLabel.trim()) item.label = nextLabel.trim().slice(0, 48);
         const nextTarget = Number(prompt("Cible :", String(item.target)));
         if (nextTarget >= 1 && nextTarget <= 50) item.target = Math.round(nextTarget);
       }
-      if (act === "del") data.kpis.splice(idx, 1);
-      saveData("Enregistré");
+      if (act === "del") state.kpis.splice(idx, 1);
+      saveState();
       render();
     });
 
+    // Routines
     document.getElementById("routine-form").addEventListener("submit", (e) => {
       e.preventDefault();
-      const inp = document.getElementById("routine-input");
+      const inp = document.getElementById("routine-name");
       const label = inp.value.trim();
       if (!label) return;
-      data.routines.push({ label, done: false });
+      state.routines.push({ label, done: false });
       inp.value = "";
-      saveData("Ajoutée");
+      saveState();
       render();
+      flash("cockpit-toast", "Routine ajoutée");
     });
 
     document.getElementById("routine-list").addEventListener("change", (e) => {
       const cb = e.target.closest("input[type='checkbox'][data-ridx]");
       if (!cb) return;
       const idx = Number(cb.dataset.ridx);
-      if (data.routines[idx]) {
-        data.routines[idx].done = cb.checked;
-        saveData("Enregistré");
+      if (state.routines[idx]) {
+        state.routines[idx].done = cb.checked;
+        saveState();
         render();
       }
     });
@@ -718,83 +774,159 @@ HTML
     document.getElementById("routine-list").addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-rdel]");
       if (!btn) return;
-      data.routines.splice(Number(btn.dataset.rdel), 1);
-      saveData("Supprimée");
+      state.routines.splice(Number(btn.dataset.rdel), 1);
+      saveState();
       render();
     });
 
-    document.getElementById("debrief-area").addEventListener("input", (e) => {
-      data.debrief = e.target.value;
-      saveData();
+    document.querySelectorAll(".add-preset-routine").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const label = btn.dataset.routine;
+        if (!label) return;
+        state.routines.push({ label, done: false });
+        saveState();
+        render();
+        openTab("cockpit");
+        flash("cockpit-toast", "Routine ajoutée depuis le protocole");
+      });
     });
 
-    document.getElementById("gen-plan-btn").addEventListener("click", () => {
-      if (!consumeCredit()) return;
-      const todo = data.kpis
-        .filter((k) => k.current < k.target)
-        .map((k) => `- ${k.label} : ${k.target - k.current} restant(s)`);
-      const note = data.debrief.trim() || "Aucune note";
-      data.plan =
-        "PLAN GÉNÉRÉ\n" +
-        (todo.length ? todo.join("\n") : "- Toutes les cibles sont atteintes") +
-        `\nNote : ${note}`;
-      saveData("Plan généré");
-      render();
+    // Notes
+    document.getElementById("notes-area").addEventListener("input", (e) => {
+      state.notes = e.target.value;
+      saveState();
     });
 
-    document.getElementById("copy-note-btn").addEventListener("click", async () => {
-      const txt = document.getElementById("debrief-area").value.trim();
+    document.getElementById("copy-notes-btn").addEventListener("click", async () => {
+      const txt = state.notes.trim();
       if (!txt) return;
       try {
         await navigator.clipboard.writeText(txt);
-        saveData("Copié");
+        flash("cockpit-toast", "Notes copiées");
       } catch {}
     });
 
-    document.getElementById("save-cfg-btn").addEventListener("click", () => {
-      const t = document.getElementById("cfg-title").value.trim();
-      const s = document.getElementById("cfg-subtitle").value.trim();
-      if (t) data.config.title = t;
-      if (s) data.config.subtitle = s;
-      saveData();
+    document.getElementById("send-to-plan-btn").addEventListener("click", () => {
+      state.planContext = state.notes;
+      saveState();
       render();
-      const st = document.getElementById("cfg-status");
-      st.textContent = "Enregistré";
-      setTimeout(() => { st.textContent = ""; }, 1500);
+      openTab("atelier");
     });
 
-    document.getElementById("clear-all-btn").addEventListener("click", () => {
-      data = structuredClone(defaultData);
-      saveData("Réinitialisé");
-      render();
+    // Atelier plan
+    document.getElementById("plan-focus").addEventListener("input", (e) => {
+      state.planFocus = e.target.value;
+      saveState();
     });
 
-    document.getElementById("copy-json-btn").addEventListener("click", async () => {
+    document.getElementById("plan-context").addEventListener("input", (e) => {
+      state.planContext = e.target.value;
+      saveState();
+    });
+
+    document.getElementById("build-plan-btn").addEventListener("click", () => {
+      if (!consumeCredit()) return;
+      const focus = state.planFocus.trim() || "Exécuter la priorité principale";
+      const ctx = state.planContext.trim();
+      const pending = state.kpis
+        .filter((k) => k.current < k.target)
+        .map((k) => `${k.label} (${k.target - k.current} restant)`);
+
+      state.planSteps = [
+        `01 • Cible prioritaire : ${focus}`,
+        `02 • Bloc d'exécution : 25 min focalisées sur la première étape concrète`,
+        `03 • Suivi des objectifs : ${pending.length ? pending.join(", ") : "Cibles à jour"}`,
+        `04 • Contexte retenu : ${ctx || "Aucune contrainte particulière saisie"}`
+      ];
+      saveState();
+      render();
+      flash("atelier-toast", "Plan structuré");
+    });
+
+    document.getElementById("copy-plan-btn").addEventListener("click", async () => {
+      if (!state.planSteps.length) return;
       try {
-        await navigator.clipboard.writeText(document.getElementById("json-box").value);
-        const st = document.getElementById("cfg-status");
-        st.textContent = "JSON copié";
-        setTimeout(() => { st.textContent = ""; }, 1500);
+        await navigator.clipboard.writeText(state.planSteps.join("\n"));
+        flash("atelier-toast", "Plan copié");
       } catch {}
     });
 
-    ["proj-vol", "proj-rate", "proj-val"].forEach((id) => {
-      document.getElementById(id).addEventListener("input", updateProjection);
+    // Timer
+    let remainingSec = 25 * 60;
+    let timerId = null;
+
+    function renderTimer() {
+      const m = String(Math.floor(remainingSec / 60)).padStart(2, "0");
+      const s = String(remainingSec % 60).padStart(2, "0");
+      document.getElementById("timer-display").textContent = `${m}:${s}`;
+      document.getElementById("timer-toggle").textContent = timerId ? "Pause" : "Démarrer";
+      document.getElementById("timer-status").textContent = timerId ? "En cours" : "Prêt";
+    }
+
+    document.getElementById("timer-toggle").addEventListener("click", () => {
+      if (timerId) {
+        clearInterval(timerId);
+        timerId = null;
+      } else {
+        timerId = setInterval(() => {
+          if (remainingSec > 0) {
+            remainingSec--;
+            renderTimer();
+          } else {
+            clearInterval(timerId);
+            timerId = null;
+            renderTimer();
+            flash("cockpit-toast", "Bloc terminé");
+          }
+        }, 1000);
+      }
+      renderTimer();
     });
 
-    let deferredInstall = null;
+    document.getElementById("timer-reset").addEventListener("click", () => {
+      clearInterval(timerId);
+      timerId = null;
+      remainingSec = 25 * 60;
+      renderTimer();
+    });
+
+    document.querySelectorAll("[data-mins]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        clearInterval(timerId);
+        timerId = null;
+        remainingSec = (Number(btn.dataset.mins) || 25) * 60;
+        renderTimer();
+      });
+    });
+
+    // Projection
+    function updateSim() {
+      const vol = Math.max(0, Number(document.getElementById("sim-vol").value) || 0);
+      const rate = Math.max(0, Number(document.getElementById("sim-rate").value) || 0);
+      const price = Math.max(0, Number(document.getElementById("sim-price").value) || 0);
+      const orders = Math.round(vol * (rate / 100));
+      document.getElementById("sim-orders").textContent = orders.toLocaleString("fr-FR");
+      document.getElementById("sim-total").textContent = `${(orders * price).toLocaleString("fr-FR")} €`;
+    }
+
+    ["sim-vol", "sim-rate", "sim-price"].forEach((id) => {
+      document.getElementById(id).addEventListener("input", updateSim);
+    });
+
+    // PWA install
+    let installPrompt = null;
     const installBtn = document.getElementById("install-btn");
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
-      deferredInstall = e;
+      installPrompt = e;
       if (installBtn) installBtn.style.display = "inline-flex";
     });
     if (installBtn) {
       installBtn.addEventListener("click", async () => {
-        if (!deferredInstall) return;
-        deferredInstall.prompt();
-        await deferredInstall.userChoice;
-        deferredInstall = null;
+        if (!installPrompt) return;
+        installPrompt.prompt();
+        await installPrompt.userChoice;
+        installPrompt = null;
         installBtn.style.display = "none";
       });
     }
@@ -807,7 +939,8 @@ HTML
 
     renderCredits();
     render();
-    updateProjection();
+    renderTimer();
+    updateSim();
   </script>
 </body>
 </html>
